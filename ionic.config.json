@@ -1,0 +1,7 @@
+{
+  "name": "ahitevoy-conductores",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

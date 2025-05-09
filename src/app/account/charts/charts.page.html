@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Estadisticas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<!-- Chart -->
+<ion-card class="welcome-card" *ngIf="overview" mode="ios">
+  <ion-card-header>
+    <ion-card-subtitle style="text-align: center;font-size: 30px;">
+      {{overview.x_day.amount | currency}}<br />
+      <small style="font-size: 12px;">(Ganancias del día)</small>
+    </ion-card-subtitle>
+   
+  </ion-card-header>
+</ion-card>
+
+<ion-card class="welcome-card" *ngIf="overview" mode="ios">
+  <ion-card-header>
+    <ion-card-subtitle style="text-align: center;font-size: 30px;">
+      <ion-text *ngIf="overview.saldos_m.Saldo == 0">{{overview.saldos_m.Saldo | currency}}</ion-text>
+      <ion-text *ngIf="overview.saldos_m.Saldo > 0" style="color:green;">{{overview.saldos_m.Saldo | currency}}</ion-text>
+      <ion-text *ngIf="overview.saldos_m.Saldo < 0" style="color:red;">{{overview.saldos_m.Saldo | currency}}</ion-text> <br />
+      <small style="font-size: 12px;" *ngIf="overview.saldos_m.Saldo == 0">(Saldo)</small>
+      <small style="font-size: 12px;" *ngIf="overview.saldos_m.Saldo > 0">(Saldo a favor)</small>
+      <small style="font-size: 12px;" *ngIf="overview.saldos_m.Saldo < 0">(Saldo deudor)</small>
+    </ion-card-subtitle>
+    <ion-row>
+      <ion-col size="7"><b>Ventas totales</b></ion-col>
+      <ion-col size="5">{{ overview.saldos_m.Ventas | currency }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="7"><b>Cargos o retenciones</b></ion-col>
+      <ion-col size="5">{{ overview.saldos_m.Cargos | currency }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="7"><b>Total de pedidos</b></ion-col>
+      <ion-col size="5">{{ overview.total }}</ion-col>
+    </ion-row>
+  </ion-card-header>
+</ion-card>
+
+ <ion-card class="welcome-card">
+  <ion-card-header>
+    <ion-card-subtitle>
+        Ventas de los ultimos 3 dias
+    </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <canvas #barChartDays style="position: relative; height:30vh; width:100%"></canvas>
+  </ion-card-content>
+</ion-card>
+
+ <ion-card class="welcome-card">
+  <ion-card-header>
+    <ion-card-subtitle>
+        Ventas de los ultimos 3 meses
+    </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <canvas #barChartMonths style="position: relative; height:30vh; width:100%"></canvas>
+  </ion-card-content>
+</ion-card>
+<!-- Chart -->
+</ion-content>

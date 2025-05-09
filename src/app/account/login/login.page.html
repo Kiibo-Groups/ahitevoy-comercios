@@ -1,0 +1,47 @@
+<ion-content class="ion-padding" fullscreen>
+
+<div class="wrap-content">
+  <form #form="ngForm" (ngSubmit)="login(form.value)" style="margin-top: 15px;">
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <div style="background-color:transparent;width: 100%;height: 200px;text-align: center;margin-top: 10px;">
+          <img src="assets/login_pic.png" style="width:70%;margin:0 auto;">
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <p style="color: rgb(82, 82, 82);font-weight: 600;">
+          Bienvenido(a) de nuevo, Ingresa tus credenciales
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      
+      <ion-col size="12">
+        <ion-input type="email"  [(ngModel)]="email" required name="email" placeholder="example@example.com"></ion-input>
+        <ion-icon class="icon_input" color="primary" name="person"></ion-icon>
+      </ion-col>
+    </ion-row>
+    
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-input type="password" [(ngModel)]="password" required name="password" placeholder="*********"></ion-input>
+        <ion-icon class="icon_input" color="primary" name="eye"></ion-icon>
+      </ion-col>
+    </ion-row>
+    
+    <br />
+    <div class="row">
+      <ion-button type="submit" color="primary" style="font-weight: 400;position: relative;width: 100%;height: 45px;text-align: center;">
+        <span class="capitalize" style="font-size: 16px;">Iniciar sesión</span>
+      </ion-button>
+    </div>
+  </form>
+</div>
+
+</ion-content>

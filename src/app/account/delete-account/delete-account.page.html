@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Eliminación de tu cuenta
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<section>
+  <ion-card>
+    <ion-card-header>
+      <h4>
+       <b>
+        formulario para la Eliminación de la cuenta
+       </b>
+      </h4>
+    </ion-card-header>
+
+    <ion-card-content *ngIf="data">
+      <form #form="ngForm" (ngSubmit)="ConfirmDelete(form.value)">
+        <div class="banner animate__animated animate__fadeInUp">
+            <div class="logo ion-text-center">
+                <img src="assets/top_pic.png" style="width: 40%;">
+            </div>
+        </div>
+    
+        <div class="form">
+          <ion-list lines="none" style="padding-top: 15px;">
+            
+            <ion-item lines="none" class="animate__animated animate__fadeInUp">
+              <div class="item_inner d-flex">
+                <h3>
+                  <ion-icon name="person-outline"></ion-icon>
+                </h3>
+                <div class="input_box">
+                  <ion-label mode="md" position="stacked">Nombre Completo</ion-label>
+                  <ion-input mode="md" type="text" clearInput name="name" [(ngModel)]="data.name" placeholder="Sam Smith"
+                    required></ion-input>
+                </div>
+              </div>
+            </ion-item>
+    
+            <ion-item lines="none" class="animate__animated animate__fadeInUp">
+              <div class="item_inner d-flex">
+                <h3>
+                  <ion-icon name="mail-outline"></ion-icon>
+                </h3>
+                <div class="input_box">
+                  <ion-label mode="md" position="stacked">Email</ion-label>
+                  <ion-input mode="md" type="email" clearInput name="email" [(ngModel)]="data.email" placeholder="SamSmith@mail.com"
+                    required></ion-input>
+                </div>
+              </div>
+            </ion-item>
+            
+            <ion-item lines="none" class="animate__animated animate__fadeInUp">
+              <div class="item_inner d-flex">
+                <h3>
+                  <ion-icon name="call-outline"></ion-icon>
+                </h3>
+                <div class="input_box">
+                  <ion-label mode="md" position="stacked">Telefono</ion-label>
+                  <ion-input mode="md" type="phone" clearInput name="phone" [(ngModel)]="data.phone" placeholder="Ej.- 8331258596"
+                    required></ion-input>
+                </div>
+              </div>
+            </ion-item>
+    
+            <ion-item lines="none" class="animate__animated animate__fadeInUp">
+              <div class="item_inner d-flex">
+                <h3>
+                  <ion-icon name="pencil-outline"></ion-icon>
+                </h3>
+                <div class="input_box">
+                  <ion-label mode="md" position="stacked">Motivo de Eliminación</ion-label>
+                  <ion-textarea placeholder="Ingresa los motivo para tu solicitude de eliminación." name="motivos" ngModel required></ion-textarea>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+    
+        <section class="ion-text-center">
+          <ion-button class="btn_next" type="submit" [disabled]="!form.valid" shape="round">
+            Eliminar cuenta
+            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+        </section>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</section>
+
+</ion-content>

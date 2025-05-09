@@ -1,0 +1,161 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="text">
+     {{ text.s_detail_title }} <span style="float: right">#{{ data.id }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="data && text">
+
+<!-- Informacion del usuario -->
+<ion-card mode="ios" *ngIf="data && text">
+  <ion-list style="padding-top: 0 !important;">
+    <a href="https://www.google.com/maps/dir/?api=1&destination={{data.address}}">
+      <img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x300&maptype=roadmap&markers=color:0x533186|size:mid|label:D|{{data.lat_orig}},{{data.lng_orig}}&markers=color:0x533186|size:mid|label:O|{{data.lat_dest}},{{data.lng_dest}}&path=color:0x533186|weight:5|{{data.lat_orig}},{{data.lng_orig}}|{{data.lat_dest}},{{data.lng_dest}}&key={{admin.ApiKey_google}}">
+    </a>
+    <ion-list-header>
+      &nbsp;Información del entrega
+    </ion-list-header>
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img src="assets/user_icon.png">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ data.name }}</h3>
+        <p><a href="tel:{{ data.phone }}">{{ data.phone }}</a></p>
+        <p><a href="https://www.google.com/maps/dir/?api=1&destination={{data.address}}">{{ data.address | slice:0:50 }}...</a></p>
+      </ion-label>
+    </ion-item>
+      
+  </ion-list>
+</ion-card>
+<!-- Informacion del usuario -->
+
+<!-- Elementos del pedido -->
+<ion-card mode="ios" style="background-color: white">
+  <ion-card-header>
+    <ion-card-subtitle>
+     Elementos del pedido -&nbsp;
+    <b>{{ data.date }}</b></ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-list lines="none">
+      <div *ngFor="let item of data.items">
+        <span style="font-size:14px;">x{{ item.qty }} - {{ item.item }}</span><br />
+        <br />
+
+        <ion-label style="padding:15px;" *ngIf="item.addon.length > 0">Complementos</ion-label>
+        
+        <div *ngFor="let add of item.addon">
+          <ion-item style="font-size: 11px;color:rgb(10, 17, 119);" *ngIf="add.item_id == item.id">
+            <ion-label>{{add.addon}}</ion-label>
+          </ion-item>
+        </div>
+      </div>
+
+      <div *ngIf="data.notes">
+        <h4>Notas</h4>
+        <ion-item text-wrap style="font-size: 12px">
+          <ion-label>{{data.notes}}</ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+<!-- Elementos del pedido -->
+
+<!-- Informacion del repartidor -->
+<ion-card mode="ios" *ngIf="data.d_boy">
+  <ion-card-header>
+    <ion-card-subtitle>&nbsp;Información del repartidor</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row style="border-bottom: 1px solid #f9f9f9;padding: 5px 5px">
+      <ion-col size="6"><b>Repartidor</b></ion-col>
+      <ion-col size="6">{{ data.d_boy.name }}</ion-col>
+    </ion-row>
+    <ion-row style="border-bottom: 1px solid #f9f9f9;padding: 5px 5px">
+      <ion-col size="6"><b>Contacto</b></ion-col>
+      <ion-col size="6">
+        <a href="tel:+52{{ data.d_boy.phone }}" style="color:#4646f0;">
+          <ion-icon name="call" style="font-size: 28px;"></ion-icon>
+        </a>
+      
+        <a href="https://api.whatsapp.com/send?phone=+52{{ data.d_boy.phone }}" style="color:#0cb43e;">
+          <ion-icon name="logo-whatsapp" style="font-size: 28px;margin-left: 12px;"></ion-icon>
+        </a>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+<!-- Informacion del repartidor -->
+
+<!-- Informacion de pago -->
+<ion-card mode="ios" *ngIf="data && text" style="background-color: white">
+  <ion-card-header>
+    &nbsp;Información de pago
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-row>
+      <ion-col size="6"><b>{{ text.d_pay }}</b></ion-col>
+      <ion-col size="6" *ngIf="data.pay == 1">Pago en efectivo</ion-col>
+      <ion-col size="6" *ngIf="data.pay != 1">Medios electrónicos</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6"><b>Total a recibir</b></ion-col>
+      <ion-col size="6">
+        <h3 style="color:green;">
+          MX {{ data.GetTaxes.payment_to_receive | currency }}
+        </h3>
+      </ion-col>
+      <ion-col size="6"><b>Tú ganancia</b></ion-col>
+      <ion-col size="6">
+        <h3 style="color:green;">MX {{data.GetTaxes.gananciasxt | currency}}</h3>
+      </ion-col>
+
+      <ion-col size="12"><hr /></ion-col>
+
+      <ion-col size="12" style="padding: 0 !important;">
+        <ion-button size="small" (click)="infoPage()" style="text-decoration:capitalize;">
+          Desglose de Información
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+<!-- Informacion de pago -->
+
+</ion-content>
+
+<ion-footer no-border *ngIf="text">
+
+  <ion-row *ngIf="status == 0">
+    <ion-col size="6"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,2)">{{ text.s_cancel_button }}</ion-button></ion-col>
+    <ion-col size="6"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,1)" color="success">{{ text.s_confirm_button }}</ion-button></ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="status == 1">
+    <ion-col size="12" *ngIf="data.type == 1"><ion-button size="block" mode="ios" routerLink="/dboy/{{ data.id }}" routerDirection="forward">{{ text.s_assign_button }}</ion-button></ion-col>
+    <ion-col size="12" *ngIf="data.type == 2"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,7)">Listo para recoger</ion-button></ion-col>
+    <ion-col size="12" *ngIf="data.type == 7"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,5)">Entregar pedido</ion-button></ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="status == 1.5">
+    <ion-col size="12"><ion-button size="block" mode="ios" routerLink="/dboy/{{ data.id }}" routerDirection="forward">Reasignar Repartidor</ion-button></ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="status == 3">
+    <ion-col size="12"><ion-button size="block" mode="ios" routerLink="/dboy/{{ data.id }}" routerDirection="forward">Reasignar Repartidor</ion-button></ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="status == 4">
+    <ion-col size="12"><ion-button size="block" mode="ios" routerLink="/dboy/{{ data.id }}" routerDirection="forward">Reasignar Repartidor</ion-button></ion-col>
+  </ion-row>
+  
+</ion-footer>

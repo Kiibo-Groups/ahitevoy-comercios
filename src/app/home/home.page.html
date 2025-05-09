@@ -1,0 +1,125 @@
+<ion-header class="bg_transparent">
+    <ion-toolbar style="margin-top:15px;">
+        <ion-buttons slot="start" >
+            <ion-menu-button mode="ios">
+                <img src="/assets/menu.png" alt="">
+            </ion-menu-button>
+        </ion-buttons>
+
+        <ion-title mode="md" *ngIf="store">
+            {{store.name}}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="data && text">
+
+    <ion-card style="margin-top: 3%"></ion-card>
+
+    <ion-segment [(ngModel)]="pet">
+        <ion-segment-button value="1" mode="md">
+            <ion-icon name="mail-unread" stye="font-size:12px;"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="2" mode="md">
+            <ion-icon name="alarm" stye="font-size:12px;"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="3" mode="md">
+            <ion-icon name="bicycle" stye="font-size:12px;"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="4" mode="md">
+            <ion-icon name="checkbox" stye="font-size:12px;"></ion-icon>
+        </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="pet">
+        <div *ngSwitchCase="1">
+            <ion-card mode="ios" style="background-color: white;">
+                <ion-card-header>
+                    <ion-card-subtitle>Pedidos Nuevos</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+
+            <ion-card mode="ios" style="background-color: white;" *ngFor="let order of data" (click)="detail(order)">
+                <ion-card-content style="margin-top: 15px;" *ngIf="order.status == 0">
+                    <ion-row>
+                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
+                        <ion-col size="6">{{ order.name }}
+                            <br><small>{{ order.address }}</small>
+                        </ion-col>
+                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b><br>
+                            <small style="color:orange;float: right" *ngIf="order.status == 0">{{ text.s_new_status }}</small>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </div>
+
+        <div *ngSwitchCase="2">
+            <ion-card mode="ios" style="background-color: white;">
+                <ion-card-header>
+                    <ion-card-subtitle>Pedidos en curso</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+
+            <ion-card mode="ios" style="background-color: white;" *ngFor="let order of data" (click)="detail(order)">
+                <ion-card-content style="margin-top: 15px;" *ngIf="order.status == 1 || order.status == 1.5">
+                    <ion-row>
+                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
+                        <ion-col size="6">{{ order.name }}
+                            <br><small>{{ order.address }}</small>
+                        </ion-col>
+                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b><br>
+                            <small style="color:green;float: right" *ngIf="order.status == 1">{{ text.s_confirm_order }}</small>
+                            <small style="color:green;float: right" *ngIf="order.status == 1.5">Buscando Socio Repartidor</small>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </div>
+
+        <div *ngSwitchCase="3">
+            <ion-card mode="ios" style="background-color: white;">
+                <ion-card-header>
+                    <ion-card-subtitle>Pedidos en ruta</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+
+            <ion-card mode="ios" style="background-color: white;" *ngFor="let order of data" (click)="detail(order)">
+                <ion-card-content style="margin-top: 15px;" *ngIf="order.status == 3 || order.status == 4">
+                    <ion-row>
+                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
+                        <ion-col size="6">{{ order.name }}
+                            <br><small>{{ order.address }}</small>
+                        </ion-col>
+                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b><br>
+                            <small style="color:blue;float: right" *ngIf="order.status == 3">Repartidor Asignado</small>
+                            <small style="color:green;float: right" *ngIf="order.status == 4">{{ text.s_out_delivery_status }}</small>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </div>
+
+        <div *ngSwitchCase="4">
+            <ion-card mode="ios" style="background-color: white;">
+                <ion-card-header>
+                    <ion-card-subtitle>Pedidos Completos</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+
+            <ion-card mode="ios" *ngFor="let order of complete" style="background-color: white;" (click)="detail(order)">
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
+                        <ion-col size="6">{{ order.name }}
+                            <br><small>{{ order.address }}</small>
+                        </ion-col>
+                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b></ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </div>
+
+</ion-content>

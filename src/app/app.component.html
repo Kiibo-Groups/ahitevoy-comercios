@@ -1,0 +1,50 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" swipe-gesture="true" type="push" side="start">
+
+      <ion-header no-border>
+        <div class="banner" style="padding-bottom: 15px;">
+          <div class="info">
+
+            <div class="text_box" *ngIf="store">
+              <p>Bienvenido(a)</p>
+              <h2>¿Listo(a) Para activarte?</h2>
+            </div>
+
+            <div class="img_box" *ngIf="store">
+              <img src="https://dash.ahitevoy.com/upload/user/{{store.img}}" class="crop_img"
+                style="border-radius:14px;">
+            </div>
+          </div>
+        </div>
+      </ion-header>
+
+      <ion-content style="margin-top: 25px;">
+        <ion-list lines="none">
+          <ion-list-header>
+           Menú
+          </ion-list-header>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item [routerDirection]="'forward'" [routerLink]="[p.url]">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-item (click)="logout()">
+            <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+      <ion-footer>
+        <ion-item><small style="font-size: 9px;">AhiTevoy v2.3</small></ion-item>
+      </ion-footer>
+
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

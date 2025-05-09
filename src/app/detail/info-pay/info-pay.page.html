@@ -1,0 +1,79 @@
+<ion-header class="ion-no-border" no-border>
+  <ion-toolbar>
+    <ion-title>Desglose de información</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-list *ngIf="payment == 1 && data">
+    <ion-item lines="none">
+      <ion-label>Método de pago</ion-label>
+      <ion-label slot="end" style="text-align: right;">Pago en efectivo</ion-label>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Total de la venta</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.total | currency}}</ion-label>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Ofertas y Descuentos</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.offer_discount | currency}}</ion-label>
+    </ion-item>
+    
+    <ion-item lines="none">
+      <ion-label>Comisión de la plataforma</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.comisionxs | currency}}</ion-label>
+    </ion-item>
+    
+    <ion-item lines="none">
+      <ion-label>Retención de impuestos</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.reteneciones | currency}}</ion-label>
+    </ion-item>
+    
+    <ion-item lines="none" style="color:green;">
+      <ion-label>Total a recibir<br /> <small>(Total de venta + Comisión de plataforma)</small></ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.payment_to_receive | currency}}</ion-label>
+    </ion-item>
+
+    <ion-item lines="none" style="color:green;" *ngIf="data.payment_to_admin > 0">
+      <ion-label>Saldo a favor<br /> <small>Descuentos - (Comisión de la plataforma + Retención de impuestos)</small></ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.payment_to_admin | currency}}</ion-label>
+    </ion-item>
+
+    <ion-item lines="none" style="color:red;" *ngIf="data.payment_to_admin < 0">
+      <ion-label>Saldo pendiente a la plataforma<br /> <small>Descuentos - (Comisión de la plataforma + Retención de impuestos)</small></ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.payment_to_admin | currency}}</ion-label>
+    </ion-item>
+
+    <ion-item lines="none" style="color:green;">
+      <ion-label>Tú ganancia por venta</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.gananciasxt | currency}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="payment != 1 && data">
+    <ion-item lines="none">
+      <ion-label>Método de pago</ion-label>
+      <ion-label slot="end" style="text-align: right;">Medios electrónicos</ion-label>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Total de la venta</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.total | currency}}</ion-label>
+    </ion-item>
+   
+    <ion-item lines="none">
+      <ion-label>Retención de impuestos</ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.reteneciones | currency}}</ion-label>
+    </ion-item>
+    
+    <ion-item lines="none" style="color:green;">
+      <ion-label>Total a recibir<br /> <small>(Total de venta - Retención de impuestos)</small></ion-label>
+      <ion-label slot="end" style="text-align: right;">MX {{data.gananciasxt | currency}}</ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
