@@ -42,7 +42,6 @@
     "cordova-browser": "7.0.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
-    "cordova-plugin-nativegeocoder": "^3.3.0",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-stripe": "^1.5.3",
@@ -76,7 +75,6 @@
     "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-email-composer": "^0.10.1",
     "cordova-plugin-file": "^7.0.0",
-    "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-ionic-webview": "^5.0.0",
     "cordova-plugin-nativeaudio": "^3.0.9",
     "cordova-plugin-ns0m-file-transfer": "^2.0.0-7",
@@ -104,17 +102,12 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-nativegeocoder": {},
       "cordova-plugin-stripe": {},
       "cordova-plugin-nativeaudio": {},
       "cordova-plugin-ionic-webview": {},
       "onesignal-cordova-plugin": {},
       "cordova-plugin-ns0m-file-transfer": {},
       "cordova-plugin-app-version": {},
-      "cordova-plugin-geolocation": {
-        "GEOLOCATION_USAGE_DESCRIPTION": "find driver",
-        "GPS_REQUIRED": "true"
-      },
       "cordova-plugin-device-orientation": {},
       "uk.co.workingedge.phonegap.plugin.launchnavigator": {
         "GOOGLE_API_KEY_FOR_ANDROID": "{AIzaSyBcNN9rKag284BnfDce6DjjjV-UbssoJmk}"
