@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ahitevoy.negocios" version="2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ahitevoy.negocios" version="2.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>AhiTeVoy Negocios</name>
     <description>Aplicacion unicamente para Negocios de AhiTeVoy</description>
     <author email="soporte.desarrollosqv@gmail.com" href="https://desarrollos-qv.web.app">Desarrollos QV</author>
@@ -445,7 +445,6 @@
     <plugin name="cordova-plugin-device" spec="2.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-plugin-stripe" spec="^1.5.3" />
     <content src="index.html" />
     <allow-navigation href="https://localhost:8100" sessionid="f2c8fd07" />
 </widget>
