@@ -86,8 +86,6 @@ export class HomePage {
       console.log(this.data);
     });
   }
-
-
   async presentToast(txt,color) {
     const toast = await this.toastController.create({
       message: txt,
@@ -111,7 +109,11 @@ export class HomePage {
   detail(odata)
   {
     localStorage.setItem('odata', JSON.stringify(odata));
-
     this.nav.navigateForward('/detail');
+  }
+
+  viewListFinish()
+  {
+    this.nav.navigateForward('/order');
   }
 }
