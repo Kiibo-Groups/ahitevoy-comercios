@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ServerService } from './service/server.service';
 
 
-import OneSignal from 'onesignal-cordova-plugin';
+// import OneSignal from 'onesignal-cordova-plugin';
 
 @Component({
   selector: 'app-root',
@@ -109,6 +109,7 @@ export class AppComponent {
 
   subPush(id = 0)
   {
+    /*
     OneSignal.setAppId("c41d3e93-68e5-4b01-9dfd-eb898b272e5b");
     OneSignal.setNotificationOpenedHandler(function(jsonData) {
         console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
@@ -131,6 +132,7 @@ export class AppComponent {
       OneSignal.setExternalUserId(JSON.stringify(id));
       OneSignal.sendTags({store_id: id})
     }
+      */
   }
 
   async storeOpen(type)
