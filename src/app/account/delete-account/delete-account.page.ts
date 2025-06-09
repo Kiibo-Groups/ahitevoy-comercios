@@ -60,6 +60,10 @@ export class DeleteAccountPage implements OnInit {
 
   }
 
+  closeModal() {
+    this.modalController.dismiss();
+  }
+
   async presentToast(txt,color) {
     const toast = await this.toastController.create({
       message: txt,

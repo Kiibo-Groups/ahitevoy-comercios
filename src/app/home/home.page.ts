@@ -82,6 +82,8 @@ export class HomePage {
       localStorage.setItem('store_data', JSON.stringify(response.store));
 
       this.events.publish('store_data',response.store);
+
+      console.log(this.data);
     });
   }
 

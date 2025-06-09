@@ -35,8 +35,9 @@
     <div [ngSwitch]="pet">
         <div *ngSwitchCase="1">
             <ion-card mode="ios" style="background-color: white;">
-                <ion-card-header>
-                    <ion-card-subtitle>Pedidos Nuevos</ion-card-subtitle>
+                <ion-card-header class="ion-text-center">
+                    <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos Nuevos</ion-card-subtitle>
+                    <ion-card-subtitle *ngIf="!data || data.length == 0">En Espera de Nuevos pedidos...</ion-card-subtitle>
                 </ion-card-header>
             </ion-card>
 
@@ -53,12 +54,19 @@
                     </ion-row>
                 </ion-card-content>
             </ion-card>
+
+            <ion-card *ngIf="!data || data.length == 0" class="border-none" style="border: none;box-shadow:none;">
+                <ion-card-content>
+                    <img src="../../assets/list_empty.svg" alt="">
+                </ion-card-content>
+            </ion-card>
         </div>
 
         <div *ngSwitchCase="2">
             <ion-card mode="ios" style="background-color: white;">
-                <ion-card-header>
-                    <ion-card-subtitle>Pedidos en curso</ion-card-subtitle>
+                <ion-card-header class="ion-text-center">
+                    <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos En curso</ion-card-subtitle>
+                    <ion-card-subtitle *ngIf="!data || data.length == 0">En Espera de Nuevos pedidos...</ion-card-subtitle>
                 </ion-card-header>
             </ion-card>
 
@@ -76,12 +84,18 @@
                     </ion-row>
                 </ion-card-content>
             </ion-card>
+            <ion-card *ngIf="!data || data.length == 0" class="border-none" style="border: none;box-shadow:none;">
+                <ion-card-content>
+                    <img src="../../assets/list_empty.svg" alt="">
+                </ion-card-content>
+            </ion-card>
         </div>
 
         <div *ngSwitchCase="3">
             <ion-card mode="ios" style="background-color: white;">
-                <ion-card-header>
-                    <ion-card-subtitle>Pedidos en ruta</ion-card-subtitle>
+                <ion-card-header class="ion-text-center">
+                    <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos En Ruta</ion-card-subtitle>
+                    <ion-card-subtitle *ngIf="!data || data.length == 0">En Espera de Nuevos pedidos...</ion-card-subtitle>
                 </ion-card-header>
             </ion-card>
 
@@ -97,6 +111,12 @@
                             <small style="color:green;float: right" *ngIf="order.status == 4">{{ text.s_out_delivery_status }}</small>
                         </ion-col>
                     </ion-row>
+                </ion-card-content>
+            </ion-card>
+
+             <ion-card *ngIf="!data || data.length == 0" class="border-none" style="border: none;box-shadow:none;">
+                <ion-card-content>
+                    <img src="../../assets/list_empty.svg" alt="">
                 </ion-card-content>
             </ion-card>
         </div>
