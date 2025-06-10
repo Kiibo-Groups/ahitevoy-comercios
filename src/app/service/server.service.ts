@@ -69,6 +69,8 @@ export class ServerService {
 
   storeOpen(type)
   {
+    console.log('aqui?')
+    console.log(type)
     return this.http.get(this.url+'storeOpen/'+type)
              .pipe(map(results => results));
   }

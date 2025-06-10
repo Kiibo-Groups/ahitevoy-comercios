@@ -18,22 +18,24 @@
     <ion-card style="margin-top: 3%"></ion-card>
 
     <ion-segment [(ngModel)]="pet">
-        <ion-segment-button value="1" mode="md">
+        <ion-segment-button value="1" mode="md" (click)="call(1)">
             <ion-icon name="mail-unread" stye="font-size:12px;"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button value="2" mode="md">
+        <ion-segment-button value="2" mode="md"  (click)="call(2)">
             <ion-icon name="alarm" stye="font-size:12px;"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button value="3" mode="md">
+        <ion-segment-button value="3" mode="md" (click)="call(3)">
             <ion-icon name="bicycle" stye="font-size:12px;"></ion-icon>
         </ion-segment-button>
-        <ion-segment-button value="4" mode="md">
+        <ion-segment-button value="4" mode="md" (click)="call(4)">
             <ion-icon name="checkbox" stye="font-size:12px;"></ion-icon>
         </ion-segment-button>
     </ion-segment>
 
-    <div [ngSwitch]="pet">
-        <div *ngSwitchCase="1">
+    <div>
+     
+        <div *ngIf="pet == 1">
+        
             <ion-card mode="ios" style="background-color: white;">
                 <ion-card-header class="ion-text-center">
                     <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos Nuevos</ion-card-subtitle>
@@ -62,7 +64,7 @@
             </ion-card>
         </div>
 
-        <div *ngSwitchCase="2">
+        <div  *ngIf="pet == 2">
             <ion-card mode="ios" style="background-color: white;">
                 <ion-card-header class="ion-text-center">
                     <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos En curso</ion-card-subtitle>
@@ -91,7 +93,7 @@
             </ion-card>
         </div>
 
-        <div *ngSwitchCase="3">
+        <div  *ngIf="pet == 3">
             <ion-card mode="ios" style="background-color: white;">
                 <ion-card-header class="ion-text-center">
                     <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos En Ruta</ion-card-subtitle>
@@ -121,7 +123,7 @@
             </ion-card>
         </div>
 
-        <div *ngSwitchCase="4">
+        <div  *ngIf="pet == 4">
             <ion-card mode="ios" style="background-color: white;">
                 <ion-card-header>
                     <ion-card-subtitle>Pedidos Completos</ion-card-subtitle>

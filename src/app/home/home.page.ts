@@ -18,6 +18,8 @@ export class HomePage {
   overview:any;
 
   count_orders: any = 0;
+
+  listen: any;
   constructor(
     public toastController: ToastController,
     public alertController: AlertController,
@@ -58,33 +60,52 @@ export class HomePage {
     this.loadData();
     loading.dismiss();
   }
+  call(flag: any) {
+    console.log('entro');
+    console.log(flag)
+    let aa = parseInt(flag);
+    this.pet = aa;
+  }
+
+  ngOnDestroy() {
+    console.log('onDestroy');
+    if (this.listen) {
+      this.listen.unsubscribe();
+      console.log('Suscripción cancelada');
+    }
+  }
 
   async loadData()
   {
-    this.server.homepage(localStorage.getItem('user_id'),0).subscribe((response:any) => {
-      
-      this.count_orders = response.data.length;
 
-      this.data      = response.data;
-      this.store     = response.store;
-      this.text      = response.text;
-      this.overview  = response.overview;
-      this.complete  = response.complete;
+    let getItem =  localStorage.getItem('user_id');
+    
+    if (getItem) {
+      this.listen  = this.server.homepage(getItem,0).subscribe((response:any) => {
+        console.log(response)
+        this.count_orders = response.data.length;
 
-      this.events.publish('text', this.text);
+        this.data      = response.data;
+        this.store     = response.store;
+        this.text      = response.text;
+        this.overview  = response.overview;
+        this.complete  = response.complete;
 
-      localStorage.setItem('dboy', JSON.stringify(response.dboy));
-      localStorage.setItem('app_text', JSON.stringify(response.text));
-      localStorage.setItem('admin', JSON.stringify(response.admin));
-      localStorage.setItem('app_type', response.app_type);
-      localStorage.setItem('store_id', response.store.id);
-      localStorage.setItem('p_staff', response.store.p_staff);
-      localStorage.setItem('store_data', JSON.stringify(response.store));
+        this.events.publish('text', this.text);
 
-      this.events.publish('store_data',response.store);
+        localStorage.setItem('dboy', JSON.stringify(response.dboy));
+        localStorage.setItem('app_text', JSON.stringify(response.text));
+        localStorage.setItem('admin', JSON.stringify(response.admin));
+        localStorage.setItem('app_type', response.app_type);
+        localStorage.setItem('store_id', response.store.id);
+        localStorage.setItem('p_staff', response.store.p_staff);
+        localStorage.setItem('store_data', JSON.stringify(response.store));
 
-      console.log(this.data);
-    });
+        this.events.publish('store_data',response.store);
+
+        console.log(this.data);
+      });
+    }
   }
 
 

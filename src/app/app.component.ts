@@ -49,7 +49,7 @@ export class AppComponent {
         {
           title: "Estadisticas",
           url: '/charts',
-          icon: 'stats-chart'
+          icon: 'stats'
         },
         {
           title: "Historial",
@@ -152,7 +152,7 @@ export class AppComponent {
 
   logout()
   {
-    this.storeOpen(0);
+    // this.storeOpen(0);
     localStorage.setItem('user_id',null);
     localStorage.removeItem('user_id');
     this.menu.close();
