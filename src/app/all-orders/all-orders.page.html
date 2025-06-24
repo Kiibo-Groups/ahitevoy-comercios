@@ -1,0 +1,38 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">
+      Listado de pedidos activos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="data">
+
+  <ion-card *ngFor="let order of data" >
+    <ion-card-content *ngIf="order.status == 0 || order.status == 1 || order.status == 1.5 || order.status == 4">
+      <ion-row class="wrap_orders">
+        <ion-col size="12" class="order_id_info">
+          <span>Order ID #{{order.id}}</span>
+
+          <ion-badge color="success" *ngIf="order.status == 0">Nuevo</ion-badge>
+          <ion-badge color="warning" *ngIf="order.status == 1 || order.status == 1.5">En Curso</ion-badge>
+          <ion-badge color="primary" *ngIf="order.status == 3 || order.status == 4">En Ruta</ion-badge>
+        </ion-col>
+
+        <ion-col size="12" class="order_name_info">
+          <span><ion-icon name="person-outline"></ion-icon> {{ order.name }}</span>
+          <span><ion-icon name="pin-outline"></ion-icon> <p style="color:rgba(52, 52, 231, 0.527);">{{ order.address | slice:0:35 }}...</p></span>
+        </ion-col>
+        <ion-col size="12" class="order_btns_info">
+          <ion-button expand="block" (click)="detail(order)">Ver Detalles</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>

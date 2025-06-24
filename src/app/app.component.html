@@ -1,11 +1,9 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" swipe-gesture="true" type="push" side="start">
-
       <ion-header no-border>
         <div class="banner" style="padding-bottom: 15px;">
           <div class="info">
-
             <div class="text_box" *ngIf="store">
               <p>Bienvenido(a)</p>
               <h2>¿Listo(a) Para activarte?</h2>
@@ -20,9 +18,10 @@
       </ion-header>
 
       <ion-content style="margin-top: 25px;">
+
         <ion-list lines="none">
           <ion-list-header>
-           Menú
+            Menú
           </ion-list-header>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
@@ -39,12 +38,10 @@
             <ion-label>Cerrar Sesión</ion-label>
           </ion-item>
         </ion-list>
-      </ion-content>
-      <ion-footer>
-        <ion-item><small style="font-size: 9px;">AhiTevoy v2.3</small></ion-item>
-      </ion-footer>
 
+      </ion-content>
     </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

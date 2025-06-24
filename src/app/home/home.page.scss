@@ -1,61 +1,193 @@
-ion-header {
-	z-index: 999;
-  
-	&::after {
-		display: none !important;
+.home-page {
+	.greeting-box {
+		margin-bottom: 25px;
+		border-bottom: 1px solid #e1e1e1;
+		text-align: center;
+
+		h2 {
+			font-size: 1.4rem;
+			margin-bottom: 4px;
+		}
+
+		p {
+			color: #666;
+			margin-bottom: 12px;
+		}
 	}
-  
-  
-	&.bg_transparent {
-	  z-index: 999;
-	  width: 100%;
-	  height: auto;
-  
-	  ion-toolbar {
-		  --background: transparent;
-		  --ion-color-base: transparent !important;
-		  display: flex;
-		  align-items: center;
-		  min-height: auto !important;
-		  height: auto;
-		  overflow: visible !important;
-		  --border-width: 0 !important;
-		  padding:5px 12px;
-  
-		  ion-buttons {
-			  position: relative !important;
-			  margin: 0;
-			  --color: #fff !important;
-			  
-			  ion-menu-button {
-				background: #fff; //#f4f5f8;
-				color: #4c4c4c;
-				border-radius: 12px;
-				font-size: 24px;
-				width: 40px;
-				height: 40px;
-				border: 1px solid #e6e6e6;
-				-webkit-box-shadow: 0px 4px 14px -9px rgba(0,0,0,0.75);
-				-moz-box-shadow: 0px 4px 14px -9px rgba(0,0,0,0.75);
-				box-shadow: 0px 4px 14px -9px rgba(0,0,0,0.75);
-		
-				img {
-				  width: 100%;
+
+	section {
+		margin-top: 15px;
+		padding: 15px 0;
+		border-top: 1px solid #e1e1e1;
+
+		p {
+			color: #666;
+			padding: 0 !important;
+			margin: 0 10px;
+		}
+
+		.swiper {
+
+			.swiper-pagination {
+				bottom: -5px;
+			}
+
+			.swiper-wrapper {
+
+				.swiper-slide {
+
+					.slide-container {
+						ion-card {
+							margin-bottom: 14px;
+
+							ion-card-title {
+								font-weight: bold;
+								font-size: 1rem;
+							}
+
+							ion-card-subtitle {
+								font-size: 0.8rem;
+								color: #888;
+							}
+
+							ion-button {
+								margin-top: 8px;
+							}
+
+
+
+							ion-card-content {
+
+								ion-row.wrap_orders {
+
+									ion-col.order_id_info {
+										display: flex;
+										justify-content: space-between;
+									}
+
+									ion-col.order_name_info {
+
+										span {
+											display: block;
+											margin: 4px 0;
+										}
+									}
+
+									ion-col.order_btns_info {
+
+										ion-button {
+											text-transform: capitalize;
+											color: #fff;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-			  }
-  
-			  ion-icon {
-				padding: 15px;
-				border-radius: 25px;
-				background:#fff;
-				margin: 15px 0;
-				-webkit-box-shadow: 0px 4px 14px -9px rgba(0,0,0,0.75);
-				-moz-box-shadow: 0px 4px 14px -9px rgba(0,0,0,0.75);
-				box-shadow: 0px 4px 14px -9px rgba(0,0,0,0.75);
-			  }
-  
-		  }
-	  }
+
+			}
+
+		}
+
+		.card {
+			border-radius: 12px;
+			padding: 16px;
+			color: white;
+			margin: 15px 10px;
+		}
+
+		.earnings-card {
+			background-color: var(--ion-color-secondary);
+
+			.card-header {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+
+				ion-icon {
+					font-size: 32px;
+				}
+
+				.balance {
+					.label {
+						font-size: 14px;
+						opacity: 0.8;
+					}
+
+					h2 {
+						margin: 0;
+						font-size: 24px;
+					}
+				}
+			}
+
+			.card-footer {
+				display: flex;
+				justify-content: space-between;
+				margin-top: 16px;
+				border-top: 1px solid rgba(255, 255, 255, 0.775);
+				padding-top: 12px;
+
+				div {
+					text-align: center;
+
+					p {
+						margin: 0;
+						font-size: 13px;
+						opacity: 0.9;
+						color: #fff;
+					}
+
+					strong {
+						font-size: 16px;
+					}
+				}
+			}
+		}
+
+		.order-cards {
+			
+
+			.order-card {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				height: 100px;
+				border-radius: 12px;
+				text-align: center;
+
+				h1 {
+					margin: 0;
+					font-size: 28px;
+					font-weight: bold;
+				}
+
+				p {
+					margin: 4px 0 0;
+					font-size: 14px;
+					color: #fff;
+				}
+
+				&.today {
+					background-color: #00bcd4;
+					color: white;
+				}
+
+				&.week {
+					background-color: #2196f3;
+					color: white;
+				}
+
+				&.total {
+					background-color: #f57c00;
+					color: white;
+					flex-basis: 100%;
+				}
+			}
+		}
+	
+
 	}
-  }
-  
+}

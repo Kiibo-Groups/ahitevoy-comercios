@@ -1,0 +1,53 @@
+ion-card {
+    margin-bottom: 14px;
+
+    ion-card-title {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    ion-card-subtitle {
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    ion-button {
+        margin-top: 8px;
+    }
+
+
+
+    ion-card-content {
+
+        ion-row.wrap_orders {
+
+            ion-col.order_id_info {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            ion-col.order_name_info {
+
+                span {
+                    display: flex;
+                    align-items: center;
+                    margin: 4px 0;
+
+                    ion-icon {
+                        font-size: 18px;
+                        margin-right: 10px;
+                        color: var(--ion-color-secondary);
+                    }
+                }
+            }
+
+            ion-col.order_btns_info {
+
+                ion-button {
+                    text-transform: capitalize;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

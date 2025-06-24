@@ -1,9 +1,9 @@
 <ion-header no-border>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button color="light"></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="text">
+    <ion-title *ngIf="text" color="light">
      {{ text.s_detail_title }} <span style="float: right">#{{ data.id }}</span>
     </ion-title>
   </ion-toolbar>
@@ -122,7 +122,7 @@
       <ion-col size="12"><hr /></ion-col>
 
       <ion-col size="12" style="padding: 0 !important;">
-        <ion-button size="small" (click)="infoPage()" style="text-decoration:capitalize;">
+        <ion-button size="small" (click)="infoPage()" style="text-decoration:capitalize;color:#fff;">
           Desglose de Información
         </ion-button>
       </ion-col>
@@ -136,14 +136,14 @@
 <ion-footer no-border *ngIf="text">
 
   <ion-row *ngIf="status == 0">
-    <ion-col size="6"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,2)">{{ text.s_cancel_button }}</ion-button></ion-col>
-    <ion-col size="6"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,1)" color="success">{{ text.s_confirm_button }}</ion-button></ion-col>
+    <ion-col size="6"><ion-button size="block" mode="ios" (click)="startRide(data.id,2)">{{ text.s_cancel_button }}</ion-button></ion-col>
+    <ion-col size="6"><ion-button size="block" mode="ios" (click)="startRide(data.id,1)" color="success">{{ text.s_confirm_button }}</ion-button></ion-col>
   </ion-row>
 
   <ion-row *ngIf="status == 1">
     <ion-col size="12" *ngIf="data.type == 1"><ion-button size="block" mode="ios" routerLink="/dboy/{{ data.id }}" routerDirection="forward">{{ text.s_assign_button }}</ion-button></ion-col>
-    <ion-col size="12" *ngIf="data.type == 2"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,7)">Listo para recoger</ion-button></ion-col>
-    <ion-col size="12" *ngIf="data.type == 7"><ion-button size="block" mode="ios" (click)="presentAlertConfirm(data.id,5)">Entregar pedido</ion-button></ion-col>
+    <ion-col size="12" *ngIf="data.type == 2"><ion-button size="block" mode="ios" (click)="startRide(data.id,7)">Listo para recoger</ion-button></ion-col>
+    <ion-col size="12" *ngIf="data.type == 7"><ion-button size="block" mode="ios" (click)="startRide(data.id,5)">Entregar pedido</ion-button></ion-col>
   </ion-row>
 
   <ion-row *ngIf="status == 1.5">

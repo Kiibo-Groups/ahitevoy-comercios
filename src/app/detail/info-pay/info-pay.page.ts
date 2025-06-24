@@ -1,45 +1,48 @@
-import { ModalController, ToastController } from '@ionic/angular';
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { EventsService } from '../../service/events.service';
+import { ServerService } from '../../service/server.service';
+
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, ModalController, IonButtons, IonIcon } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-info-pay',
   templateUrl: './info-pay.page.html',
   styleUrls: ['./info-pay.page.scss'],
+  standalone: true,
+  imports: [IonIcon, IonButtons, IonLabel, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class InfoPayPage implements OnInit {
 
-  @Input() odata : any;
-  @Input() payment_type : Number;
-  
+  @Input() odata: any;
+  @Input() payment_type: any;
+
   data: any;
-  payment: Number;
+  payment: any;
   constructor(
     public modalController: ModalController,
-    public toastController: ToastController  
+    public server: ServerService
   ) { }
 
-  ngOnInit() {
 
+  ngOnInit() {
   }
 
-  ionViewWillEnter(){
+
+  ionViewWillEnter() {
     if (this.odata) {
       this.data = JSON.parse(this.odata);
       this.payment = this.payment_type;
-    }else {
-      this.presentToast("Por favor ingresa la información necesaria.",'danger');
+    } else {
+      this.server.presentToast({text : "Por favor ingresa la información necesaria.",color: 'danger', position:"top"});
       this.modalController.dismiss();
     }
   }
 
-  async presentToast(txt,color) {
-    const toast = await this.toastController.create({
-      message: txt,
-      duration: 3000,
-      position : 'top',
-      mode:'ios',
-      color:color
-    });
-    toast.present();
+  closeModal(){
+    this.modalController.dismiss();
   }
+
 }

@@ -1,139 +1,134 @@
-<ion-header class="bg_transparent">
-    <ion-toolbar style="margin-top:15px;">
-        <ion-buttons slot="start" >
-            <ion-menu-button mode="ios">
-                <img src="/assets/menu.png" alt="">
-            </ion-menu-button>
+<ion-header translucent>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <ion-menu-button mode="ios"></ion-menu-button>
         </ion-buttons>
 
-        <ion-title mode="md" *ngIf="store">
-            {{store.name}}
+        <ion-title class="ion-text-capitalize">
+            <img src="assets/top_pic.png" alt="AhiTeVot" style="width: 100px;">
         </ion-title>
+        <ion-buttons slot="end">
+            <ion-button routerLink="/profile">
+                <ion-icon name="settings-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
+<ion-content class="ion-padding home-page">
 
-<ion-content *ngIf="data && text">
-
-    <ion-card style="margin-top: 3%"></ion-card>
-
-    <ion-segment [(ngModel)]="pet">
-        <ion-segment-button value="1" mode="md">
-            <ion-icon name="mail-unread" stye="font-size:12px;"></ion-icon>
-        </ion-segment-button>
-        <ion-segment-button value="2" mode="md">
-            <ion-icon name="alarm" stye="font-size:12px;"></ion-icon>
-        </ion-segment-button>
-        <ion-segment-button value="3" mode="md">
-            <ion-icon name="bicycle" stye="font-size:12px;"></ion-icon>
-        </ion-segment-button>
-        <ion-segment-button value="4" mode="md">
-            <ion-icon name="checkbox" stye="font-size:12px;"></ion-icon>
-        </ion-segment-button>
-    </ion-segment>
-
-    <div [ngSwitch]="pet">
-        <div *ngSwitchCase="1">
-            <ion-card mode="ios" style="background-color: white;">
-                <ion-card-header class="ion-text-center">
-                    <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos Nuevos</ion-card-subtitle>
-                    <ion-card-subtitle *ngIf="!data || data.length == 0">En Espera de Nuevos pedidos...</ion-card-subtitle>
-                </ion-card-header>
-            </ion-card>
-
-            <ion-card mode="ios" style="background-color: white;" *ngFor="let order of data" (click)="detail(order)">
-                <ion-card-content style="margin-top: 15px;" *ngIf="order.status == 0">
-                    <ion-row>
-                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
-                        <ion-col size="6">{{ order.name }}
-                            <br><small>{{ order.address }}</small>
-                        </ion-col>
-                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b><br>
-                            <small style="color:orange;float: right" *ngIf="order.status == 0">{{ text.s_new_status }}</small>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
-
-            <ion-card *ngIf="!data || data.length == 0" class="border-none" style="border: none;box-shadow:none;">
-                <ion-card-content>
-                    <img src="../../assets/list_empty.svg" alt="">
-                </ion-card-content>
-            </ion-card>
-        </div>
-
-        <div *ngSwitchCase="2">
-            <ion-card mode="ios" style="background-color: white;">
-                <ion-card-header class="ion-text-center">
-                    <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos En curso</ion-card-subtitle>
-                    <ion-card-subtitle *ngIf="!data || data.length == 0">En Espera de pedidos en curso...</ion-card-subtitle>
-                </ion-card-header>
-            </ion-card>
-
-            <ion-card mode="ios" style="background-color: white;" *ngFor="let order of data" (click)="detail(order)">
-                <ion-card-content style="margin-top: 15px;" *ngIf="order.status == 1 || order.status == 1.5">
-                    <ion-row>
-                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
-                        <ion-col size="6">{{ order.name }}
-                            <br><small>{{ order.address }}</small>
-                        </ion-col>
-                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b><br>
-                            <small style="color:green;float: right" *ngIf="order.status == 1">{{ text.s_confirm_order }}</small>
-                            <small style="color:green;float: right" *ngIf="order.status == 1.5">Buscando Socio Repartidor</small>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
-            <ion-card *ngIf="!data || data.length == 0" class="border-none" style="border: none;box-shadow:none;">
-                <ion-card-content>
-                    <img src="../../assets/list_empty.svg" alt="">
-                </ion-card-content>
-            </ion-card>
-        </div>
-
-        <div *ngSwitchCase="3">
-            <ion-card mode="ios" style="background-color: white;">
-                <ion-card-header class="ion-text-center">
-                    <ion-card-subtitle *ngIf="data && data.length > 0">Listado de Pedidos En Ruta</ion-card-subtitle>
-                    <ion-card-subtitle *ngIf="!data || data.length == 0">En Espera de pedidos en ruta...</ion-card-subtitle>
-                </ion-card-header>
-            </ion-card>
-
-            <ion-card mode="ios" style="background-color: white;" *ngFor="let order of data" (click)="detail(order)">
-                <ion-card-content style="margin-top: 15px;" *ngIf="order.status == 3 || order.status == 4">
-                    <ion-row>
-                        <ion-col size="2"><ion-badge>{{ order.id }}</ion-badge></ion-col>
-                        <ion-col size="6">{{ order.name }}
-                            <br><small>{{ order.address }}</small>
-                        </ion-col>
-                        <ion-col size="4"> <b style="font-size: 14px;float: right">{{ order.GetTaxes.payment_to_receive | currency }}</b><br>
-                            <small style="color:blue;float: right" *ngIf="order.status == 3">Repartidor Asignado</small>
-                            <small style="color:green;float: right" *ngIf="order.status == 4">{{ text.s_out_delivery_status }}</small>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
-
-             <ion-card *ngIf="!data || data.length == 0" class="border-none" style="border: none;box-shadow:none;">
-                <ion-card-content>
-                    <img src="../../assets/list_empty.svg" alt="">
-                </ion-card-content>
-            </ion-card>
-        </div>
-
-        <div *ngSwitchCase="4">
-            <ion-card mode="ios" style="background-color: white;">
-                <ion-card-content>
-                    <ion-row>
-                        <ion-col size="12" class="ion-text-center">
-                            <ion-button (click)="viewListFinish()" color="success" expand="block" style="text-transform: capitalize;font-size:14px !important;">
-                                Ver Historial completo
-                            </ion-button>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
-        </div>
+    <!-- Bienvenida -->
+    <div class="greeting-box">
+        <h2 *ngIf="store">👋 ¡Hola, {{store.name}}!</h2>
+        <p>Revisa tus pedidos en tiempo real y mantén tu cocina activa 🚀</p>
     </div>
+    <!-- Ultimos pedidos ativos -->
+    <section>
+        <p style="display: flex;justify-content: space-between;">
+            Listado de pedidos
+
+            <a routerLink="/all-orders">Ver todos</a>
+        </p>
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide" *ngFor="let order of data" >
+                    <div class="slide-container">
+                        <ion-card>
+                            <ion-card-content>
+                                <ion-row class="wrap_orders">
+                                    <ion-col size="12" class="order_id_info">
+                                        <span>Order ID #{{order.id}}</span>
+
+                                        <ion-badge color="success" *ngIf="order.status == 0">Nuevo</ion-badge>
+                                        <ion-badge color="warning" *ngIf="order.status == 1 || order.status == 1.5">En Curso</ion-badge>
+                                        <ion-badge color="primary" *ngIf="order.status == 3 || order.status == 4">En Ruta</ion-badge>
+                                    </ion-col>
+
+                                    <ion-col size="12" class="order_name_info">
+                                        <span><ion-icon name="person-outline"></ion-icon> {{ order.name }}</span>
+                                        <span><ion-icon name="pin-outline"></ion-icon> {{ order.address }}</span>
+                                    </ion-col>
+                                    <ion-col size="12" class="order_btns_info">
+                                        <ion-button expand="block" (click)="detail(order)">Ver Detalles</ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-card-content>
+                        </ion-card>
+                    </div>
+                </div>
+
+                <div class="swiper-slide" *ngIf="!data || data.length == 0">
+                    <div class="slide-container" style="text-align: center;">
+                        <img src="../../assets/list_empty.svg" alt="sin pedidos" style="width: 150px;margin:10px auto">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Saludo y resumen -->
+    <section *ngIf="overview">
+        <p>Ganancias</p>
+
+        <div class="card earnings-card">
+            <div class="card-header">
+                <ion-icon name="wallet-outline"></ion-icon>
+                <div class="balance">
+                    <span class="label">Balance General</span>
+                    <h2>{{ overview.saldos_m.Ventas | currency }}</h2>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <p>Hoy</p>
+                    <strong>{{overview.x_day.amount | currency}}</strong>
+                </div>
+                <div>
+                    <p>Esta semana</p>
+                    <strong>{{overview.week_data.amount | currency}}</strong>
+                </div>
+                <div>
+                    <p>Este Mes</p>
+                    <strong>{{overview.month_data.amount | currency}}</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="overview">
+        <p>Pedidos</p>
+
+        <div class="order-cards">
+            <ion-row>
+                <ion-col size="6">
+                    <div class="card order-card today">
+                        <h1>{{overview.x_day.order }}</h1>
+                        <p>Pedidos <br>Hoy</p>
+                    </div>
+                </ion-col>
+                <ion-col size="6">
+                    <div class="card order-card week">
+                        <h1>{{overview.week_data.total }}</h1>
+                        <p>Pedidos <br>Esta semana</p>
+                    </div>
+                </ion-col>
+
+                <ion-col size="12">
+                    <div class="card order-card total">
+                        <h1>{{overview.total }}</h1>
+                        <p>Pedidos <br>Totales</p>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </div>
+    </section>
 
 </ion-content>

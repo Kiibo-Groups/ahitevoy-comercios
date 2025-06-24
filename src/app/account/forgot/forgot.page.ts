@@ -1,147 +1,138 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonLabel, LoadingController, NavController, IonInput } from '@ionic/angular/standalone';
 import { ServerService } from '../../service/server.service';
-import { ToastController,NavController,Platform,LoadingController } from '@ionic/angular';
+import { EventsService } from '../../service/events.service';
+import {
+	ForgotRequest,
+	UpdatePasswordRequest,
+	VerifyRequest
+} from '../../service/interfaces';
+
 
 @Component({
-  selector: 'app-forgot',
-  templateUrl: './forgot.page.html',
-  styleUrls: ['./forgot.page.scss'],
+	selector: 'app-forgot',
+	templateUrl: './forgot.page.html',
+	styleUrls: ['./forgot.page.scss'],
+	standalone: true,
+	imports: [IonInput, IonLabel, IonItem, IonCardContent, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonBackButton, CommonModule, FormsModule]
 })
 export class ForgotPage implements OnInit {
 
-  user_id:any;
-  newPassword = false;
-  email:any;
-  text:any;
-  constructor(public server : ServerService,public toastController: ToastController,private nav: NavController,public loadingController: LoadingController) { 
 
-   this.text = JSON.parse(localStorage.getItem('app_text'));
+	user_id: any;
+	newPassword = false;
+	email: any;
+	text: any;
+	constructor(
+		public server: ServerService,
+		private nav: NavController,
+		public loadingController: LoadingController
+	) {
 
-  }
+		const appText = localStorage.getItem('app_text');
+		this.text = appText ? JSON.parse(appText) : null;
 
-  ngOnInit() {
-  }
+	}
 
-  async forgot(data,type = "new")
-  {
-  	if(type == "new" && data.email.length == 0)
-  	{
-  		this.presentToast('Por favor introduzca su correo electrónico ');
-  	}
-  	else
-  	{
-		const loading = await this.loadingController.create({
-			mode:'ios'
-		});
-		await loading.present();
+	ngOnInit() {
+	}
 
-		this.server.forgot(data).subscribe((response:any) => {
 
-		if(response.msg == "error")
-		{
-			this.presentToast(response.error);
+	async forgot(data: ForgotRequest, type = "new") {
+		if (type == "new" && data.email.length == 0) {
+			this.server.presentToast({ text: 'Por favor introduzca su correo electrónico ', color: "warning", position: "bottom" });
 		}
-		else
-		{
-			this.presentToast("OTP enviado con éxito en su correo electrónico ");
-			this.user_id = response.user_id;
-			this.email   = data.email;
+		else {
+			const loading = await this.loadingController.create({
+				mode: 'ios'
+			});
+			await loading.present();
+
+			this.server.forgot(data).subscribe((response: any) => {
+
+				if (response.msg == "error") {
+					this.server.presentToast({ text: response.error, color: "danger", position: 'top' });
+				}
+				else {
+					this.server.presentToast({ text: "OTP enviado con éxito en su correo electrónico ", color: "success", position: "top" });
+					this.user_id = response.user_id;
+					this.email = data.email;
+				}
+
+				loading.dismiss();
+
+			});
 		}
+	}
 
-		loading.dismiss();
-
-		});
-  	}
-  }
-
-  async verify(data)
-  {
-  	if(data.otp.length == 0)
-  	{
-  		this.presentToast('Ingrese su OTP ');
-  	}
-  	else
-  	{
-		const loading = await this.loadingController.create({
-			duration: 3000,
-			mode:'ios'
-		});
-		await loading.present();
-
-		var allData = {otp : data.otp,user_id : this.user_id}
-
-		this.server.verify(allData).subscribe((response:any) => {
-
-		if(response.msg == "error")
-		{
-			this.presentToast(response.error);
+	async verify(data: VerifyRequest) {
+		if (data.otp.length == 0) {
+			this.server.presentToast({ text: 'Ingrese su OTP ', color: "danger", position: 'top' });
 		}
-		else
-		{
-			this.user_id 	   = response.user_id;
-			this.newPassword   = true;
+		else {
+			const loading = await this.loadingController.create({
+				duration: 3000,
+				mode: 'ios'
+			});
+			await loading.present();
 
-			this.presentToast("Correo electrónico verificado correctamente. ");
+			var allData = { otp: data.otp, user_id: this.user_id }
+
+			this.server.verify(allData).subscribe((response: any) => {
+
+				if (response.msg == "error") {
+					this.server.presentToast({ text: response.error, color: "danger", position: "top" });
+				}
+				else {
+					this.user_id = response.user_id;
+					this.newPassword = true;
+
+					this.server.presentToast({ text: "Correo electrónico verificado correctamente.", color: "success", position: "top" });
+				}
+
+				loading.dismiss();
+
+			});
 		}
+	}
 
-		loading.dismiss();
-
-		});
-  	}
-  }
-
-  async new_password(data)
-  {
-  	if(data.password.length == 0)
-  	{
-  		this.presentToast('Por favor ingrese su nueva contraseña ');
-  	}
-  	else if(data.password != data.new_password)
-  	{
-  		this.presentToast('Confirme que la contraseña no coincide. ');
-  	}
-  	else
-  	{
-		const loading = await this.loadingController.create({
-			duration: 3000,
-			mode:'ios'
-		});
-		await loading.present();
-
-		var allData = {password : data.password,user_id : this.user_id}
-
-		this.server.updatePassword(allData).subscribe((response:any) => {
-
-		if(response.msg == "error")
-		{
-			this.presentToast(response.error);
+	async new_password(data: UpdatePasswordRequest) {
+		if (data.password.length == 0) {
+			this.server.presentToast({ text: 'Por favor ingrese su nueva contraseña', color: "warning", position: "top" });
 		}
-		else
-		{
-			this.nav.navigateForward('/login');
-			this.presentToast("Nueva contraseña actualizada correctamente.");
-			
+		else if (data.password != data.new_password) {
+			this.server.presentToast({ text: 'Confirme que la contraseña no coincide.', color: "warning", position: "top" });
 		}
+		else {
+			const loading = await this.loadingController.create({
+				duration: 3000,
+				mode: 'ios'
+			});
+			await loading.present();
 
-		loading.dismiss();
+			var allData = { user_id: this.user_id, password: data.password, new_password: data.new_password }
 
-		});
-  	}
-  }
+			this.server.updatePassword(allData).subscribe((response: any) => {
 
-  async presentToast(txt) {
-    const toast = await this.toastController.create({
-      message: txt,
-      duration: 3000,
-      position : 'top',
-      mode:'ios',
-      color:'dark'
-    });
-    toast.present();
-  }
+				if (response.msg == "error") {
+					this.server.presentToast({ text: response.error, color: "danger", position: "top" });
+				}
+				else {
+					this.nav.navigateForward('/login');
+					this.server.presentToast({ text: "Nueva contraseña actualizada correctamente.", color: "success", position: "top" });
 
-  resend()
-  {
-  	this.forgot({email : this.email});
-  }
+				}
+
+				loading.dismiss();
+
+			});
+		}
+	}
+
+	resend()
+	{
+		this.forgot({email : this.email});
+	}
 }

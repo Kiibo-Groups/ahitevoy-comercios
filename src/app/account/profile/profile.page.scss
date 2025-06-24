@@ -1,0 +1,39 @@
+.profile-page {
+
+    .profile-header {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        height: 150px;
+
+        .avatar-img {
+            border: 1px solid rgb(225, 225, 225);
+            border-radius: 2000px;
+            height: 75px;
+            width: 75px;
+            background-position: center;
+            background-size: cover;
+            position: absolute;
+            bottom: -15px;
+            right: 0;
+            z-index: 2000;
+        }
+    }
+
+    .settings-list {
+        ion-item {
+            border-radius: 12px;
+            margin-bottom: 10px;
+            --padding-start: 14px;
+
+            ion-icon {
+                font-size: 1.2rem;
+            }
+
+            ion-label {
+                font-size: 1rem;
+            }
+        }
+    }
+}

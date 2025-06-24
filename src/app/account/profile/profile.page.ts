@@ -1,16 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ServerService } from '../../service/server.service';
-import { ToastController, NavController, Platform, LoadingController, ModalController } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DeleteAccountPage } from '../delete-account/delete-account.page';
+import { ServerService } from '../../service/server.service';
+
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonCard, IonBackButton, IonCardHeader, IonCardTitle, IonListHeader, IonList, IonLabel, IonToggle, IonItem, IonIcon, IonCardSubtitle, IonButton, NavController, LoadingController, ModalController, IonBadge, IonInput } from '@ionic/angular/standalone';
+import { ActivatedRoute } from '@angular/router';
+import { UpdateUserRequest } from 'src/app/service/interfaces';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
+  standalone: true,
+  imports: [IonInput, IonBadge, IonButton, IonCardSubtitle, IonIcon, IonItem, IonToggle, IonLabel, IonList, IonListHeader, IonCardTitle, IonCardHeader, IonBackButton, IonCard, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-
 export class ProfilePage implements OnInit {
+
   @ViewChild('content', { static: false }) private content: any;
 
   data: any;
@@ -19,30 +25,32 @@ export class ProfilePage implements OnInit {
   order: any;
 
   constructor(
-    private route: ActivatedRoute, 
-    public server: ServerService, 
-    public toastController: ToastController, 
-    private nav: NavController, 
+    private route: ActivatedRoute,
+    public server: ServerService,
+    private nav: NavController,
     public loadingController: LoadingController,
     public modalController: ModalController
   ) {
-    this.text = JSON.parse(localStorage.getItem('app_text'));
+    const appText = localStorage.getItem('app_text');
+    this.text = appText ? JSON.parse(appText) : null;
   }
+
 
   ngOnInit() {
   }
 
+
   ionViewWillEnter() {
     if (!localStorage.getItem('user_id') || localStorage.getItem('user_id') == 'null') {
       this.nav.navigateRoot('/login');
-      this.presentToast("Inicie sesión para acceder a su perfil ");
+      this.server.presentToast({text : "Inicie sesión para acceder a su perfil.", color :"danger", position: "top"});
     }
     else {
       this.loadData();
     }
   }
 
-  async takeAction(type) {
+  async takeAction(type:number) {
     this.action = type;
   }
 
@@ -53,7 +61,7 @@ export class ProfilePage implements OnInit {
     await loading.present();
 
     this.server.userInfo(localStorage.getItem('user_id')).subscribe((response: any) => {
-
+      console.log(response)
       this.data = response.data;
       this.order = response.order;
 
@@ -78,21 +86,25 @@ export class ProfilePage implements OnInit {
     return await modal.present();
   }
 
-
-  async update(data) {
+  async update(data: UpdateUserRequest) {
     const loading = await this.loadingController.create({
       mode: 'ios'
     });
     await loading.present();
 
-    var allData = { id: localStorage.getItem('user_id'), password: data.password, min_cart_value: data.min_cart_value, delivery_charges_value: data.delivery_charges_value }
+    var allData = {
+      id: localStorage.getItem('user_id') || '',
+      password: data.password,
+      min_cart_value: data.min_cart_value,
+      delivery_charges_value: data.delivery_charges_value
+    }
 
     this.server.updateInfo(allData).subscribe((response: any) => {
 
       this.action = 0;
       this.data = response.data;
 
-      this.presentToast("Actualizado con éxito.");
+      this.server.presentToast({text : "Actualizado con éxito.", color : "success", position : "top"});
 
       loading.dismiss();
 
@@ -101,12 +113,12 @@ export class ProfilePage implements OnInit {
 
   logout() {
     this.storeOpen(0);
-    localStorage.setItem('user_id', null);
+    localStorage.setItem('user_id', 'null');
     localStorage.removeItem('user_id');
     this.nav.navigateRoot('/login');
   }
 
-  async storeOpen(type) {
+  async storeOpen(type:number) {
     const loading = await this.loadingController.create({
       mode: 'ios'
     });
@@ -115,19 +127,9 @@ export class ProfilePage implements OnInit {
     this.server.storeOpen(type + "?user_id=" + localStorage.getItem('user_id')).subscribe((response: any) => {
       loading.dismiss();
       if (response.data == 'error') {
-        this.presentToast("Ha ocurrido un problema por favor, intente de nuevo mas tarde");
+        this.server.presentToast({text : "Ha ocurrido un problema por favor, intente de nuevo mas tarde", color: "danger", position : "top"});
       }
     });
   }
 
-  async presentToast(txt) {
-    const toast = await this.toastController.create({
-      message: txt,
-      duration: 3000,
-      position: 'top',
-      mode: 'ios',
-      color: 'dark'
-    });
-    toast.present();
-  }
 }

@@ -1,91 +1,85 @@
 <ion-header>
   <ion-toolbar color="primary">
-  <ion-buttons slot="start">
+    <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ text.forgot_title }}</ion-title>
+    <ion-title *ngIf="text">{{ text.forgot_title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<!--Send email for otp-->
-<ion-card mode="ios" *ngIf="!user_id">
+<ion-content *ngIf="text">
+  <!--Send email for otp-->
+  <ion-card mode="ios" *ngIf="!user_id">
 
-<ion-card-header>
+    <ion-card-header>
 
-<ion-card-title>{{ text.forgot_title }}</ion-card-title>
-<ion-card-subtitle>{{ text.forgot_heading }}</ion-card-subtitle>
+      <ion-card-title>Sigue Las instrucciones para recuperar tu cuenta</ion-card-title>
+      <ion-card-subtitle>{{ text.forgot_heading }}</ion-card-subtitle>
 
-</ion-card-header>
+    </ion-card-header>
 
-<ion-card-content>
-<form #form="ngForm" (ngSubmit)="forgot(form.value)">
+    <ion-card-content>
+      <form #form="ngForm" (ngSubmit)="forgot(form.value)">
+        <ion-input label="Ingresa tu email" labelPlacement="floating" type="email" [(ngModel)]="email" required name="email"></ion-input>
+        <br>
+        <ion-button expand="block" mode="ios" type="submit">Enviar</ion-button>
+        <br>
+      </form>
+    </ion-card-content>
+  </ion-card>
 
-<ion-item>
-  <ion-label position="floating">{{ text.forgot_text }}</ion-label>
-  <ion-input type="email" ngModel required name="email"></ion-input>
-</ion-item>
+  <!--Verify OTP code-->
+  <ion-card mode="ios" *ngIf="user_id && !newPassword">
 
-<br>
+    <ion-card-header>
+      <ion-card-title>Verifica tu correo electrónico </ion-card-title>
+      <ion-card-subtitle>Se ha enviado un código OTP en su correo electrónico {{ this.email }}</ion-card-subtitle>
 
-<ion-button expand="block" mode="ios" type="submit">Enviar</ion-button>
-<br>
-</form>
-</ion-card-content>
-</ion-card>
+    </ion-card-header>
+    <br><br>
+    <form #form="ngForm" (ngSubmit)="verify(form.value)">
 
-<!--Verify OTP code-->
-<ion-card mode="ios" *ngIf="user_id && !newPassword">
+      <ion-item>
+        <ion-label position="floating" style="font-size: 12px">Ingresa OTP</ion-label>
+        <ion-input type="email" ngModel required name="otp"></ion-input>
+      </ion-item>
 
-<ion-card-header>
-<ion-card-title>Verifica tu correo electrónico </ion-card-title>
-<ion-card-subtitle>Se ha enviado un código OTP en su correo electrónico  {{ this.email }}</ion-card-subtitle>
+      <br>
 
-</ion-card-header>
-<br><br>
-<form #form="ngForm" (ngSubmit)="verify(form.value)">
+      <ion-button expand="block" mode="ios" type="submit">Verificar </ion-button>
 
-<ion-item>
-  <ion-label position="floating" style="font-size: 12px">Ingresa OTP</ion-label>
-  <ion-input type="email" ngModel required name="otp"></ion-input>
-</ion-item>
+    </form>
+    <p align="center">No obtuve OTP? <a (click)="resend()">Reenviar </a></p>
 
-<br>
+  </ion-card>
 
-<ion-button expand="block" mode="ios" type="submit">Verificar </ion-button>
+  <!--Set New Password-->
+  <ion-card mode="ios" *ngIf="user_id && newPassword">
 
-</form>
-<p align="center">No obtuve OTP? <a (click)="resend()">Reenviar </a></p>
+    <ion-card-header>
+      <ion-card-title>Establecer nueva contraseña</ion-card-title>
 
-</ion-card>
+    </ion-card-header>
+    <br><br>
+    <form #form="ngForm" (ngSubmit)="new_password(form.value)">
 
-<!--Set New Password-->
-<ion-card mode="ios" *ngIf="user_id && newPassword">
+      <ion-item>
+        <ion-label position="floating" style="font-size: 12px">Nueva contraseña </ion-label>
+        <ion-input type="password" ngModel required name="password"></ion-input>
+      </ion-item>
 
-<ion-card-header>
-<ion-card-title>Establecer nueva contraseña</ion-card-title>
+      <ion-item>
+        <ion-label position="floating" style="font-size: 12px">confirmar Contraseña </ion-label>
+        <ion-input type="password" ngModel required name="new_password"></ion-input>
+      </ion-item>
 
-</ion-card-header>
-<br><br>
-<form #form="ngForm" (ngSubmit)="new_password(form.value)">
+      <br>
 
-<ion-item>
-  <ion-label position="floating" style="font-size: 12px">Nueva contraseña </ion-label>
-  <ion-input type="password" ngModel required name="password"></ion-input>
-</ion-item>
+      <ion-button expand="block" mode="ios" type="submit">Actualizar </ion-button>
 
-<ion-item>
-  <ion-label position="floating" style="font-size: 12px">confirmar Contraseña </ion-label>
-  <ion-input type="password" ngModel required name="new_password"></ion-input>
-</ion-item>
+    </form>
+    <p align="center">No obtuve OTP? <a (click)="resend()">Reenviar </a></p>
 
-<br>
-
-<ion-button expand="block" mode="ios" type="submit">Actualizar </ion-button>
-
-</form>
-<p align="center">No obtuve OTP? <a (click)="resend()">Reenviar </a></p>
-
-</ion-card>
+  </ion-card>
 
 </ion-content>

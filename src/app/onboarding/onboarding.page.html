@@ -1,0 +1,27 @@
+<ion-content class="onboarding-content">
+  <!-- Slider main container -->
+  <div class="swiper">
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
+
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+      <!-- Slides -->
+      <div class="swiper-slide" *ngFor="let slide of slides">
+        <div class="slide-container">
+          <img [src]="slide.image" alt="Onboarding" />
+          
+          <div class="slider-container-text">
+            <h2>{{ slide.title }}</h2>
+            <p>{{ slide.description }}</p>
+            
+            <ion-button expand="block" color="primary" *ngIf="!slide.last" (click)="swiper.slideNext()">Siguiente</ion-button>
+            <ion-button expand="block" color="primary" *ngIf="slide.last" (click)="GoToLogin()">Empezar</ion-button>
+            <ion-button fill="clear" size="small" (click)="GoToLogin()">Saltar</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

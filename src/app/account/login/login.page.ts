@@ -1,69 +1,64 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { IonContent,IonInput, IonIcon, IonButton, NavController, MenuController, LoadingController } from '@ionic/angular/standalone';
 import { ServerService } from '../../service/server.service';
-import { ToastController,NavController,Platform,LoadingController,Events, MenuController } from '@ionic/angular';
+import { EventsService } from '../../service/events.service';
+import { LoginRequest } from 'src/app/service/interfaces';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  standalone: true,
+  imports: [CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  RouterModule,
+  IonContent, IonInput, IonButton, IonIcon]
 })
-
 export class LoginPage implements OnInit {
-  
+
+
   email = "";
   password = "";
-  
+
   constructor(
-    private route: ActivatedRoute,
-    public server : ServerService,
-    public toastController: ToastController,
+    public server: ServerService,
     private nav: NavController,
-    public menu: MenuController ,
+    public menu: MenuController,
     public loadingController: LoadingController,
-    public events: Events){
-
-      this.menu.enable(false);
+    public events: EventsService) {
+    this.menu.enable(false);
   }
 
-  ngOnInit()
-  {
-  
+  ngOnInit() {
   }
 
-  async login(data)
-  {
+  async login(data: LoginRequest) {
     const loading = await this.loadingController.create({
       message: 'Porfavor espere...',
     });
     await loading.present();
 
-    this.server.login(data).subscribe((response:any) => {
-  
-    if(response.msg != "done")
-    {
-      this.presentToast(response.msg);
-    }
-    else
-    {
-      localStorage.setItem('user_id',response.user_id);
-      this.events.publish('user_login', response.user_id);
-      this.nav.navigateRoot('home');  
-    }
+    console.log(data);
 
-    loading.dismiss();
+    this.server.login(data).subscribe((response: any) => {
+      console.log(response);
+      if (response.msg != "done") {
+        this.server.presentToast({ text: response.msg, color: "danger",position:"top" });
+      }
+      else {
+        this.server.presentToast({ text: "Bienvenido(a) de nuevo", color: "danger",position:"top" });
+        localStorage.setItem('user_id', response.user_id);
+        this.events.publish('user_login', response.user_id);
+        this.nav.navigateRoot('home');
+      }
+
+      loading.dismiss();
 
     });
-  }
-
-  async presentToast(txt) {
-    const toast = await this.toastController.create({
-      message: txt,
-      duration: 3000,
-      position : 'top',
-      mode:'ios',
-      color:'dark'
-    });
-    toast.present();
   }
 }
+

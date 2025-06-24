@@ -1,7 +1,5 @@
 {
-  "name": "ahitevoy-conductores",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
+  "name": "AhiTeVoy Negocios",
+  "integrations": {},
+  "type": "angular-standalone"
 }
