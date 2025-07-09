@@ -139,22 +139,22 @@ export class AppComponent {
 
   subPush(id = 0) {
     
-    // Initialize with your OneSignal App ID
-    OneSignal.initialize("c41d3e93-68e5-4b01-9dfd-eb898b272e5b");
-    //  We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
-    OneSignal.Notifications.requestPermission(false).then((accepted: boolean) => {
-      console.log("User accepted notifications: " + accepted);
-    });
+    // // Initialize with your OneSignal App ID
+    // OneSignal.initialize("c41d3e93-68e5-4b01-9dfd-eb898b272e5b");
+    // //  We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
+    // OneSignal.Notifications.requestPermission(false).then((accepted: boolean) => {
+    //   console.log("User accepted notifications: " + accepted);
+    // });
 
-    if (localStorage.getItem('user_id') && localStorage.getItem('user_id') != 'null') {
-      OneSignal.login(JSON.stringify(localStorage.getItem('user_id')));
-      OneSignal.User.addTag("store_id", JSON.stringify(localStorage.getItem('user_id')));
-    }
+    // if (localStorage.getItem('user_id') && localStorage.getItem('user_id') != 'null') {
+    //   OneSignal.login(JSON.stringify(localStorage.getItem('user_id')));
+    //   OneSignal.User.addTag("store_id", JSON.stringify(localStorage.getItem('user_id')));
+    // }
 
-    if (id > 0) {
-      OneSignal.login(JSON.stringify(id));
-      OneSignal.User.addTag("store_id", JSON.stringify(id));
-    }
+    // if (id > 0) {
+    //   OneSignal.login(JSON.stringify(id));
+    //   OneSignal.User.addTag("store_id", JSON.stringify(id));
+    // }
   }
 
   async storeOpen(type: number)

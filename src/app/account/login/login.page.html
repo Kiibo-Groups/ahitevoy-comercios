@@ -1,26 +1,28 @@
 <ion-content class="login-content" fullscreen>
-    <div style="background-color:transparent;width: 100%;height: 50px;text-align: center;margin-top: 10px;">
-      <img src="assets/icon.png" style="width:40%;margin:0 auto;">
+  <section>
+    <div class="login_icon">
+      <img src="assets/icon.png">
     </div>
 
-  <div class="login-box">
-    <h2>Iniciar sesión</h2>
-    <p>Bienvenido(a) de nuevo, Ingresa tus credenciales</p>
+    <div class="login-box">
+      <h2>Iniciar sesión</h2>
+      <p>Bienvenido(a) de nuevo, Ingresa tus credenciales</p>
 
-    <form #form="ngForm" (ngSubmit)="login(form.value)" style="margin-top: 15px;">
+      <form #form="ngForm" (ngSubmit)="login(form.value)" style="margin-top: 15px;">
 
-      <ion-input label="Email" labelPlacement="floating" type="email" [(ngModel)]="email" required name="email"  placeholder="example@gmail.com" autocomplete="username" ></ion-input>
-      <ion-input label="Password" labelPlacement="floating" type="password" [(ngModel)]="password" required name="password" placeholder="*********" autocomplete="current-password"></ion-input>
+        <ion-input label="Email" labelPlacement="floating" type="email" [(ngModel)]="email" required name="email"  placeholder="example@gmail.com" autocomplete="username" ></ion-input>
+        <ion-input label="Password" labelPlacement="floating" type="password" [(ngModel)]="password" required name="password" placeholder="*********" autocomplete="current-password"></ion-input>
 
-      <div class="options">
-        <a class="forgot" routerLink="/forgot">Recuperar contraseña?</a>
-      </div>
+        <div class="options">
+          <a class="forgot" routerLink="/forgot">Recuperar contraseña?</a>
+        </div>
 
-      <ion-button  type="submit" expand="block" color="primary">Iniciar sesión</ion-button>
-    </form>
+        <ion-button  type="submit" expand="block" color="primary">Iniciar sesión</ion-button>
+      </form>
 
-    <p class="footer-text">
-      No tienes cuenta? <a href="https://ahitevoy.com/signin-store" target="_blank">Registrate</a>
-    </p>
-  </div>
+      <p class="footer-text">
+        No tienes cuenta? <a href="javascript:void(0)" (click)="register()">Registrate</a>
+      </p>
+    </div>
+  </section>
 </ion-content>

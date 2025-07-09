@@ -106,7 +106,7 @@ export class HomePage implements OnInit {
 
   async loadData() {
     this.server.homepage(localStorage.getItem('user_id') || '', 0).subscribe((response: any) => {
-
+      console.log(response)
       this.count_orders = response.data.length;
 
       this.data = response.data;

@@ -1,0 +1,31 @@
+<ion-content class="login-content" fullscreen>
+  <section>
+    <div class="login_icon">
+      <img src="assets/icon.png">
+    </div>
+
+    <div class="login-box">
+      <h2>Crea tu cuenta</h2>
+      <p>Bienvenido(a), Ingresa tu Información para crear tu cuenta</p>
+
+      <form #form="ngForm" (ngSubmit)="signup(form.value)" style="margin-top: 15px;">
+
+        <ion-input label="Name" labelPlacement="floating" type="email" ngModel required name="username"  placeholder="Mi pizzeria" autocomplete="username" ></ion-input>
+        <ion-input label="Email" labelPlacement="floating" type="email" ngModel required name="email"  placeholder="example@gmail.com" autocomplete="username" ></ion-input>
+        <ion-input label="Password" labelPlacement="floating" type="password" ngModel required name="password" placeholder="*********" autocomplete="current-password"></ion-input>
+
+        <div class="options">
+          <a class="forgot" routerLink="/forgot">
+            La cuenta estara inactiva hasta que un administrador valide tus datos.
+          </a>
+        </div>
+
+        <ion-button  type="submit" expand="block" color="primary">Enviar solicitud</ion-button>
+      </form>
+
+      <p class="footer-text">
+        Ya tienes cuenta? <a href="javascript:void(0)" (click)="login()">Inicia Sesión</a>
+      </p>
+    </div>
+  </section>
+</ion-content>

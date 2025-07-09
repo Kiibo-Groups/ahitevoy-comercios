@@ -29,6 +29,10 @@ export class ServerService {
     return this.http.post(this.url + 'login', data).pipe(map(results => results));
   }
 
+  signup(data: LoginRequest) {
+    return this.http.post(this.url + 'signup', data).pipe(map(results => results));
+  }
+
   homepage(id: string, status: any) {
     return this.http.get(this.url + 'homepage?id=' + id + '&lid=' + localStorage.getItem('lid') + '&status=' + status)
       .pipe(map(results => results));

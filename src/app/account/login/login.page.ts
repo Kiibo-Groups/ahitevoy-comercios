@@ -50,7 +50,7 @@ export class LoginPage implements OnInit {
         this.server.presentToast({ text: response.msg, color: "danger",position:"top" });
       }
       else {
-        this.server.presentToast({ text: "Bienvenido(a) de nuevo", color: "danger",position:"top" });
+        this.server.presentToast({ text: "Bienvenido(a) de nuevo", color: "success",position:"top" });
         localStorage.setItem('user_id', response.user_id);
         this.events.publish('user_login', response.user_id);
         this.nav.navigateRoot('home');
@@ -60,5 +60,10 @@ export class LoginPage implements OnInit {
 
     });
   }
+
+  register() {
+    this.nav.navigateForward('signup');
+  }
+
 }
 

@@ -4,6 +4,13 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface SignupRequest {
+  email: string;
+  username: string;
+  password: string;
+  phone: string;
+}
+
 export interface UpdateUserRequest {
   id: string;
   password: string;
