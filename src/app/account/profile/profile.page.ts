@@ -33,6 +33,14 @@ export class ProfilePage implements OnInit {
   ) {
     const appText = localStorage.getItem('app_text');
     this.text = appText ? JSON.parse(appText) : null;
+    
+    if (!localStorage.getItem('user_id') || localStorage.getItem('user_id') == 'null') {
+      this.nav.navigateRoot('/login');
+      this.server.presentToast({text : "Inicie sesión para acceder a su perfil.", color :"danger", position: "top"});
+    }
+    else {
+      this.loadData();
+    }
   }
 
 
@@ -41,13 +49,7 @@ export class ProfilePage implements OnInit {
 
 
   ionViewWillEnter() {
-    if (!localStorage.getItem('user_id') || localStorage.getItem('user_id') == 'null') {
-      this.nav.navigateRoot('/login');
-      this.server.presentToast({text : "Inicie sesión para acceder a su perfil.", color :"danger", position: "top"});
-    }
-    else {
-      this.loadData();
-    }
+    
   }
 
   async takeAction(type:number) {

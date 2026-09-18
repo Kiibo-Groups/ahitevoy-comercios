@@ -1,4 +1,4 @@
-<ion-header translucent>
+<ion-header>
     <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-menu-button mode="ios"></ion-menu-button>
@@ -29,48 +29,128 @@
 
             <a routerLink="/all-orders">Ver todos</a>
         </p>
-        <!-- Slider main container -->
-        <div class="swiper">
-            <!-- If we need pagination -->
-            <div class="swiper-pagination"></div>
+        <br />
+        <ion-segment value="news">
+            <ion-segment-button value="news" content-id="news">
+                <ion-label>
+                    Nuevos 🚀
+                    <ion-badge color="success" *ngIf="order_news.length > 0">{{ order_news.length }}</ion-badge>
+                </ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="inrute" content-id="inrute">
+                <ion-label>
+                    En Ruta
+                    <ion-badge color="warning">{{ order_inrute.length }}</ion-badge>
+                </ion-label>
+            </ion-segment-button>
+        </ion-segment>
 
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Slides -->
-                <div class="swiper-slide" *ngFor="let order of data" >
-                    <div class="slide-container">
-                        <ion-card>
-                            <ion-card-content>
-                                <ion-row class="wrap_orders">
-                                    <ion-col size="12" class="order_id_info">
-                                        <span>Order ID #{{order.id}}</span>
+        <ion-segment-view>
+            <ion-segment-content id="news">
+                <!-- Slider main container -->
+                <div class="swiper" #swiperContainerNews>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
 
-                                        <ion-badge color="success" *ngIf="order.status == 0">Nuevo</ion-badge>
-                                        <ion-badge color="warning" *ngIf="order.status == 1 || order.status == 1.5">En Curso</ion-badge>
-                                        <ion-badge color="primary" *ngIf="order.status == 3 || order.status == 4">En Ruta</ion-badge>
-                                    </ion-col>
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide" *ngFor="let order of order_news">
+                            <div class="slide-container">
+                                <ion-card>
+                                    <ion-card-content>
+                                        <ion-row class="wrap_orders">
+                                            <ion-col size="12" class="order_id_info">
+                                                <span>Order ID #{{order.id}}</span>
 
-                                    <ion-col size="12" class="order_name_info">
-                                        <span><ion-icon name="person-outline"></ion-icon> {{ order.name }}</span>
-                                        <span><ion-icon name="pin-outline"></ion-icon> {{ order.address }}</span>
-                                    </ion-col>
-                                    <ion-col size="12" class="order_btns_info">
-                                        <ion-button expand="block" (click)="detail(order)">Ver Detalles</ion-button>
-                                    </ion-col>
-                                </ion-row>
-                            </ion-card-content>
-                        </ion-card>
+                                                <ion-badge color="success" *ngIf="order.status == 0">Nuevo</ion-badge>
+                                                <ion-badge color="warning"
+                                                    *ngIf="order.status == 1 || order.status == 1.5">En
+                                                    Curso</ion-badge>
+                                                <ion-badge color="primary"
+                                                    *ngIf="order.status == 3 || order.status == 4">En
+                                                    Ruta</ion-badge>
+                                            </ion-col>
+
+                                            <ion-col size="12" class="order_name_info">
+                                                <span><ion-icon name="person-outline"></ion-icon> {{ order.name
+                                                    }}</span>
+                                                <span><ion-icon name="pin-outline"></ion-icon> {{ order.address
+                                                    }}</span>
+                                            </ion-col>
+                                            <ion-col size="12" class="order_btns_info">
+                                                <ion-button expand="block" (click)="detail(order)">Ver
+                                                    Detalles</ion-button>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-card-content>
+                                </ion-card>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide" *ngIf="!order_news || order_news.length == 0">
+                            <div class="slide-container" style="text-align: center;">
+                                <img src="../../assets/list_empty.svg" alt="sin pedidos"
+                                    style="width: 150px;margin:10px auto">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+            </ion-segment-content>
+            <ion-segment-content id="inrute">
+                <!-- Slider main container -->
+                <div class="swiper" #swiperContainerInRoute>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
 
-                <div class="swiper-slide" *ngIf="!data || data.length == 0">
-                    <div class="slide-container" style="text-align: center;">
-                        <img src="../../assets/list_empty.svg" alt="sin pedidos" style="width: 150px;margin:10px auto">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide" *ngFor="let order of order_inrute">
+                            <div class="slide-container">
+                                <ion-card>
+                                    <ion-card-content>
+                                        <ion-row class="wrap_orders">
+                                            <ion-col size="12" class="order_id_info">
+                                                <span>Order ID #{{order.id}}</span>
+
+                                                <ion-badge color="success" *ngIf="order.status == 0">Nuevo</ion-badge>
+                                                <ion-badge color="warning"
+                                                    *ngIf="order.status == 1 || order.status == 1.5">En
+                                                    Curso</ion-badge>
+                                                <ion-badge color="primary"
+                                                    *ngIf="order.status == 3 || order.status == 4">En
+                                                    Ruta</ion-badge>
+                                            </ion-col>
+
+                                            <ion-col size="12" class="order_name_info">
+                                                <span><ion-icon name="person-outline"></ion-icon> {{ order.name
+                                                    }}</span>
+                                                <span><ion-icon name="pin-outline"></ion-icon> {{ order.address
+                                                    }}</span>
+                                            </ion-col>
+                                            <ion-col size="12" class="order_btns_info">
+                                                <ion-button expand="block" (click)="detail(order)">Ver
+                                                    Detalles</ion-button>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-card-content>
+                                </ion-card>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide" *ngIf="!order_inrute || order_inrute.length == 0">
+                            <div class="slide-container" style="text-align: center;">
+                                <img src="../../assets/list_empty.svg" alt="sin pedidos"
+                                    style="width: 150px;margin:10px auto">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-            </div>
-        </div>
+            </ion-segment-content>
+        </ion-segment-view>
+
     </section>
 
 
@@ -131,4 +211,11 @@
         </div>
     </section>
 
+    <!-- Pedido Activo -->
+    <ion-fab vertical="bottom" style="bottom: 90px;right: 25px;" horizontal="end" slot="fixed" class="animate__animated animate__bounceInUp" routerLink="/done-comm" *ngIf="serviceComm.length > 0">
+        <ion-fab-button color="light">
+        <img src="assets/icon2.png" alt="">
+        </ion-fab-button>
+    </ion-fab>
+    <!-- Pedido Activo -->
 </ion-content>

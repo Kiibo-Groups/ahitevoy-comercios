@@ -1,0 +1,29 @@
+<ion-content>
+
+  <ion-icon name="close-outline" class="icon_close" (click)="cancelAdd()"></ion-icon>
+
+
+  <div class="map-wrapper">
+    <div #map id="map"></div>
+  </div>
+  <div class="form-address">
+    <ion-item lines="none">
+      <div class="item_inner d-flex">
+        <img src="https://cdn-icons-gif.flaticon.com/11201/11201817.gif" alt="">
+        <span class="input_box">
+          <ion-label mode="md" position="stacked">Dirección</ion-label>
+          <hr>
+          {{address}}
+        </span>
+      </div>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer_content">
+    <section class="ion-text-center">
+      <ion-button class="btn" color="success" expand="block" (click)="saveAddress()">Guardar dirección</ion-button>
+    </section>
+  </div>
+</ion-footer>

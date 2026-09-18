@@ -30,6 +30,10 @@
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';
 
+/* asegurar altura completa */
+html, body, app-root, ion-app, .ion-page {
+  height: 100%;
+}
 
 ion-app {
     --swiper-pagination-left: auto;
@@ -40,8 +44,36 @@ ion-app {
     --swiper-pagination-bullet-width: 16px;
     --swiper-pagination-bullet-height: 4px;
     --swiper-pagination-bullet-border-radius: 0px;
-
     --swiper-pagination-bullet-inactive-color: #777777;
+    // margin: 40px 0 40px 0;
+    // --ion-safe-area-top: env(safe-area-inset-top);
+    // --ion-safe-area-bottom: env(safe-area-inset-bottom);
+}
+
+// :root {
+//   --ion-safe-area-top: env(safe-area-inset-top, 0px);
+//   --ion-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+// }
+
+// /* si usas ion-header translucent -> ajusta toolbar */
+// ion-header {
+//   /* altura base del toolbar 56px (ajusta si usas otra) */
+//   height: calc(56px + var(--ion-safe-area-top));
+//   padding-top: var(--ion-safe-area-top);
+// }
+
+// /* evitar que el contenido quede pegado abajo */
+// ion-content {
+//   /* deja un padding inferior base + el safe-area */
+//   padding-bottom: calc(var(--ion-safe-area-bottom) + 12px);
+//   /* si usas header translucent, content en fullscreen suele necesitar top=0 */
+//   --padding-top: 0px;
+// }
+
+/* si tienes footer fijo (botones verdes en tu captura) */
+.app-footer-actions {
+  box-sizing: border-box;
+  padding: calc(12px + var(--ion-safe-area-bottom)) 16px 16px;
 }
 
 /**
@@ -61,8 +93,8 @@ ion-app {
         height: 80%;
         margin: auto;
         top: 20%;
-        position: absolute; 
-        display: block;  
+        position: absolute;
+        display: block;
         border-top-left-radius: 25px;
         border-top-right-radius: 25px;
     }
@@ -74,10 +106,18 @@ ion-app {
     margin: auto;
 }
 
-@media screen and (max-width:960px) { 
+.action-sheet-button.sc-ion-action-sheet-ios {
+    font-size: 16px !important;
+}
+
+.action-sheet-button.sc-ion-action-sheet-ios {
+    color: #fff !important;
+}
+
+@media screen and (max-width:960px) {
     .wrap-content {
         width: 75%;
-    }   
+    }
 
     .my-custom-info-modal-css {
         .modal-wrapper {
@@ -86,11 +126,11 @@ ion-app {
     }
 }
 
-@media screen and (max-width:768px) { 
-    
+@media screen and (max-width:768px) {
+
     .wrap-content {
         width: 100%;
-    }   
+    }
 
     .my-custom-info-modal-css {
         .modal-wrapper {
@@ -98,4 +138,3 @@ ion-app {
         }
     }
 }
- 

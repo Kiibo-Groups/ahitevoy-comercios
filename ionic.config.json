@@ -1,5 +1,14 @@
 {
   "name": "AhiTeVoy Negocios",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": false,
+      "style": "DARK",
+      "backgroundColor": "#ffffffff"
+    }
+  },
   "type": "angular-standalone"
 }

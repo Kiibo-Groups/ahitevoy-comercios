@@ -13,7 +13,7 @@
 <ion-content *ngIf="data">
 
   <ion-card *ngFor="let order of data" >
-    <ion-card-content *ngIf="order.status == 0 || order.status == 1 || order.status == 1.5 || order.status == 4">
+    <ion-card-content *ngIf="order.status == 0 || order.status == 1 || order.status == 1.5 || order.status == 4 || order.status == 5 || order.status == 6">
       <ion-row class="wrap_orders">
         <ion-col size="12" class="order_id_info">
           <span>Order ID #{{order.id}}</span>
@@ -21,6 +21,7 @@
           <ion-badge color="success" *ngIf="order.status == 0">Nuevo</ion-badge>
           <ion-badge color="warning" *ngIf="order.status == 1 || order.status == 1.5">En Curso</ion-badge>
           <ion-badge color="primary" *ngIf="order.status == 3 || order.status == 4">En Ruta</ion-badge>
+          <ion-badge color="primary" *ngIf="order.status == 5 || order.status == 6">Finalizado</ion-badge>
         </ion-col>
 
         <ion-col size="12" class="order_name_info">

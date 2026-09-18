@@ -1,11 +1,40 @@
-import { Component, OnInit } from '@angular/core'; 
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventsService } from '../service/events.service';
-import { ServerService } from '../service/server.service'; 
+import { ServerService } from '../service/server.service';
 import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { IonContent,Platform, IonIcon, IonButton, IonMenuButton, AlertController, NavController, MenuController, LoadingController, IonHeader, IonToolbar, IonTitle, IonButtons, IonCard, IonSegmentButton, IonCardHeader, IonCardSubtitle, IonCardContent, IonRow, IonCol, IonBadge, IonLabel, IonCardTitle, IonFab, IonFabButton, IonGrid } from '@ionic/angular/standalone';
+import {
+  IonContent, Platform,
+  IonIcon,
+  IonButton,
+  IonMenuButton,
+  AlertController,
+  NavController,
+  MenuController,
+  LoadingController,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonCard,
+  IonSegmentButton,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardContent,
+  IonRow,
+  IonCol,
+  IonBadge,
+  IonLabel,
+  IonCardTitle,
+  IonFab,
+  IonFabButton,
+  IonGrid,
+  IonSegment,
+  IonSegmentView,
+  IonSegmentContent
+} from '@ionic/angular/standalone';
 
 // core version + navigation, pagination modules:
 import Swiper from 'swiper';
@@ -16,17 +45,24 @@ import { Navigation, Pagination } from 'swiper/modules';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonGrid, IonFabButton, IonFab, IonCardTitle, IonLabel, IonBadge, IonCol, IonRow, IonCardContent, IonCardSubtitle, IonCardHeader, IonSegmentButton, IonCard, IonButtons, IonTitle, IonToolbar, IonHeader, CommonModule,
-  FormsModule,
-  ReactiveFormsModule,
-  RouterModule,
-  IonContent,
-  IonButton,
-  IonMenuButton, 
-  IonIcon ]
+  imports: [IonSegment, IonSegmentView,
+    IonSegmentContent, IonLabel, IonBadge, IonCol, IonRow, IonCardContent, IonSegmentButton, IonCard, IonButtons, IonTitle, IonToolbar, IonHeader, CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    IonContent,
+    IonButton,
+    IonMenuButton,
+    IonIcon,
+    IonFabButton
+  ]
 
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
+  @ViewChild('swiperContainerNews') swiperContainerNews!: ElementRef;
+  @ViewChild('swiperContainerInRoute') swiperContainerInRoute!: ElementRef;
+  private swiperInstanceNews: any = null;
+  private swiperInstanceInRoute: any = null;
 
   data: any;
   text: any;
@@ -34,11 +70,14 @@ export class HomePage implements OnInit {
   complete: any;
   pet: number = 1;
   segmentValue: string = "nuevos";
-  pedidosNuevos:any;
-  pedidosEnCurso:any;
+  pedidosNuevos: any;
+  pedidosEnCurso: any;
   overview: any;
   count_orders: any = 0;
   timeLoadData: any;
+  order_news: Array<any> = [];
+  order_inrute: Array<any> = [];
+  serviceComm = [];
   constructor(
     public alertController: AlertController,
     public server: ServerService,
@@ -46,22 +85,18 @@ export class HomePage implements OnInit {
     private nav: NavController,
     public menu: MenuController,
     public events: EventsService,
-    public swiper : Swiper,
     public loadingController: LoadingController) {
-    this.timeLoadData = interval(2000).subscribe(() => {
-      this.loadData();
-    });
   }
 
   ngOnInit() {
   }
 
-  
-  ngAfterViewInit() {
-    this.platform.ready().then(() => {
-      this.menu.enable(true);
+  private initSwiper() {
+    if (!this.swiperContainerNews) return;
 
-      this.swiper = new Swiper('.swiper', {
+    try {
+      console.log("Inicializamos Swiper para news")
+      this.swiperInstanceNews = new Swiper(this.swiperContainerNews.nativeElement, {
         modules: [Navigation, Pagination],
         speed: 400,
         spaceBetween: 100,
@@ -71,6 +106,34 @@ export class HomePage implements OnInit {
           clickable: true,
         },
       });
+    } catch (error) {
+      console.error('Error inicializando Swiper:', error);
+    }
+
+    if (!this.swiperContainerInRoute) return;
+
+    try {
+      console.log("Inicializamos swiper para InRoute")
+      this.swiperInstanceInRoute = new Swiper(this.swiperContainerInRoute.nativeElement, {
+        modules: [Navigation, Pagination],
+        speed: 400,
+        spaceBetween: 100,
+        simulateTouch: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      });
+    } catch (error) {
+      console.error('Error inicializando Swiper:', error);
+    }
+
+  }
+
+  ngAfterViewInit() {
+    this.platform.ready().then(() => {
+      this.menu.enable(true);
+
 
       if (localStorage.getItem('app_text') && localStorage.getItem('app_text') != undefined) {
         const appText = localStorage.getItem('app_text');
@@ -78,10 +141,21 @@ export class HomePage implements OnInit {
       }
 
       this.loadData();
+      this.chkEvents_comm();
     });
   }
 
 
+
+  ionViewWillEnter() {
+    this.loadData();
+    // Inicializa Swiper después de que la vista esté lista
+    this.initSwiper();
+    this.timeLoadData = interval(2000).subscribe(() => {
+      this.loadData();
+    });
+
+  }
 
   /**
    * 
@@ -91,7 +165,24 @@ export class HomePage implements OnInit {
     clearInterval(this.timeLoadData);
     (this.timeLoadData) ? this.timeLoadData.unsubscribe() : [];
     clearInterval(this.timeLoadData);
-    console.log("Unsubscribe....");
+
+    if (this.swiperInstanceNews) {
+      try {
+        this.swiperInstanceNews.destroy();
+        this.swiperInstanceNews = null;
+      } catch (error) {
+        console.error('Error destruyendo Swiper:', error);
+      }
+    }
+
+    if (this.swiperInstanceInRoute) {
+      try {
+        this.swiperInstanceInRoute.destroy();
+        this.swiperInstanceInRoute = null;
+      } catch (error) {
+        console.error('Error destruyendo Swiper:', error);
+      }
+    }
   }
 
   async reCharge() {
@@ -104,12 +195,55 @@ export class HomePage implements OnInit {
     loading.dismiss();
   }
 
+  private hasDataChanged(newData: any[]): boolean {
+    if (!this.data) return true;
+    if (this.data.length !== newData.length) return true;
+
+    // Compara los IDs o algún identificador único
+    return newData.some((item, index) =>
+      item.id !== this.data[index].id ||
+      item.status !== this.data[index].status
+    );
+  }
+
   async loadData() {
     this.server.homepage(localStorage.getItem('user_id') || '', 0).subscribe((response: any) => {
-      console.log(response)
       this.count_orders = response.data.length;
 
-      this.data = response.data;
+      if (response.data && response.data.length > 0) {
+        if (this.hasDataChanged(response.data)) {
+          console.log("Actualizando datos...");
+          this.data = response.data;
+          this.PrepareOrders(this.data);
+
+          // Solo actualizamos Swiper si ya está inicializado
+          if (this.swiperInstanceNews) {
+            try {
+              this.swiperInstanceNews.destroy();
+              this.swiperInstanceNews = null;
+            } catch (error) {
+              console.error('Error destruyendo Swiper:', error);
+            }
+          }
+
+          if (this.swiperInstanceInRoute) {
+            try {
+              this.swiperInstanceInRoute.destroy();
+              this.swiperInstanceInRoute = null;
+            } catch (error) {
+              console.error('Error destruyendo Swiper:', error);
+            }
+          }
+
+
+
+          this.initSwiper();
+        }
+      } else {
+        this.data = [];
+      }
+
+
       this.store = response.store;
       this.text = response.text;
       this.complete = response.complete;
@@ -125,17 +259,48 @@ export class HomePage implements OnInit {
       localStorage.setItem('store_data', JSON.stringify(response.store));
 
       this.events.publish('store_data', response.store);
+      this.events.publish('admin', response.admin);
     });
 
     // Obtenemos estadisticas de ganancias y pedidos...
-    this.server.overview(localStorage.getItem('user_id')).subscribe((data:any) => {
+    this.server.overview(localStorage.getItem('user_id')).subscribe((data: any) => {
       this.overview = data.data;
     });
+  }
+
+  PrepareOrders(data: Array<any>) {
+    console.log("Data principal : ", data)
+    this.order_news = [];
+    this.order_inrute = [];
+
+
+    data.forEach((ev) => {
+      console.log(ev.status)
+      if (ev.status == 0) {
+        this.order_news.push(ev);
+      } else {
+        if(ev.status != 5) {
+          this.order_inrute.push(ev);
+        }
+      }
+    });
+
+
+    console.log("Pedidos nuevos...", this.order_news);
+    console.log("Pedidos en ruta", this.order_inrute);
   }
 
   detail(odata: []) {
     localStorage.setItem('odata', JSON.stringify(odata));
     this.nav.navigateForward('/detail');
+  }
+
+  chkEvents_comm() {
+    console.log("Verificamos lo servicios activos")
+    this.server.chkEvents_comm(localStorage.getItem('user_id')).subscribe((data: any) => {
+      console.log(data)
+      this.serviceComm = data.data;
+    });
   }
 
   viewListFinish() {

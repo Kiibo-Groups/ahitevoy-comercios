@@ -90,6 +90,44 @@ export class ServerService {
       .pipe(map(results => results));
   }
 
+  GeocodeFromCoords(lat: any, lng: any, apikey: any) {
+    return this.http.get("https://maps.googleapis.com/maps/api/geocode/json?key=" + apikey + "&latlng=" + lat + "," + lng)
+      .pipe(map(results => results));
+  }
+
+  GeocodeFromPlace(address: any, apikey: any) {
+    return this.http.get("https://maps.googleapis.com/maps/api/geocode/json?key=" + apikey + "&place_id=" + address)
+      .pipe(map(results => results));
+  }
+
+  GeocodeFromAddress(address: any, apikey: any) {
+    return this.http.get("https://maps.googleapis.com/maps/api/geocode/json?key=" + apikey + "&address=" + address)
+      .pipe(map(results => results));
+  }
+
+  /**
+   * 
+   * Servicios
+   * 
+   */
+
+  OrderComm(data: any) {
+    return this.http.post(this.url + 'OrderComm', data)
+      .pipe(map(results => results));
+  }
+
+  ViewCostShipCommanded(data:any) {
+    return this.http.post(this.url + 'ViewCostShipCommanded', data).pipe(
+      map(results => results)
+    );
+  }
+
+  chkEvents_comm(id:any) {
+    return this.http.get(this.url + 'chkEvents_comm/' + id).pipe(
+      map(results => results)
+    );
+  }
+
   /**
    * 
    * @param txt 

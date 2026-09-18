@@ -13,7 +13,7 @@ import { Navigation, Pagination } from 'swiper/modules';
   templateUrl: './onboarding.page.html',
   styleUrls: ['./onboarding.page.scss'],
   standalone: true,
-  imports: [IonContent,IonIcon,IonLabel,IonItem,IonButton, CommonModule, FormsModule]
+  imports: [IonContent,IonButton, CommonModule, FormsModule]
 
 })
 export class OnboardingPage implements OnInit {

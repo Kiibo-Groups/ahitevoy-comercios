@@ -1,0 +1,276 @@
+
+
+.map-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  #map_center {
+    position: absolute;
+    z-index: 99;
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    left: 50%;
+    margin-left: -21px;
+    margin-top: -41px;
+  }
+
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.staff_inrute_text {
+
+  width: 100%;
+  margin: auto;
+  z-index: 999;
+  background: #fff;
+
+  ion-card-content {
+    .from_to {
+      padding: 4px 15px;
+      border-radius: 15px;
+
+      ion-item {
+        --padding-start: 0 !important;
+        --inner-padding-end: 0 !important;
+        --padding-bottom: 5px;
+        --padding-top: 5px;
+
+
+        &:first-child {
+          border-bottom: 1px solid rgb(84, 216, 84);
+        }
+      }
+    }
+  }
+}
+
+.icon_menu {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  margin: 15px;
+  z-index: 999;
+
+  span {
+    padding: 15px;
+    border-radius: 25px;
+    background: #fff;
+    -webkit-box-shadow: 0px 4px 14px -9px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 4px 14px -9px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 4px 14px -9px rgba(0, 0, 0, 0.75);
+
+    ion-con {
+      font-size: 24px;
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  height: auto;
+  padding: 0 0;
+  margin: 10px auto;
+  position: relative;
+  overflow: hidden;
+  overflow-y: auto;
+  z-index: 1;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -1px;
+    width: 2px;
+    height: 100%;
+    background: #CCD1D9;
+    z-index: 1
+  }
+}
+
+
+.timeline-block {
+  width: -webkit-calc(50% + 8px);
+  width: -moz-calc(50% + 8px);
+  width: calc(50% + 8px);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  justify-content: space-between;
+  clear: both;
+}
+
+.timeline-block-right {
+  float: right;
+}
+
+
+.marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #F5F7FA;
+  background: #4FC1E9;
+  margin-top: 10px;
+  z-index: 9999
+}
+
+.timeline-content {
+  width: 95%;
+  padding: 0 15px;
+  color: #666
+}
+
+.timeline-content h6 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 500
+}
+
+.timeline-content p {
+  font-size: 14px;
+  line-height: 1.5em;
+  word-spacing: 1px;
+  color: #888;
+}
+
+
+@media screen and (max-width: 768px) {
+  .container:before {
+    left: 8px;
+    width: 2px;
+  }
+
+  .timeline-block {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .timeline-block-right {
+    float: none;
+  }
+
+  .timeline-block-left {
+    float: none;
+    direction: ltr;
+  }
+}
+
+/**
+  *
+  * Nuevo formato de pedidos
+  *
+  */
+
+.charge_load {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+
+}
+
+.order_view {
+  background-color: #fff;
+
+  ion-card-content {
+
+    ion-row {
+
+      ion-col.info_date {
+
+        i {
+          float: right;
+          font-size: 11px;
+          padding-top: 2px;
+        }
+      }
+    }
+
+    ion-row.btns {
+      margin-top: 8px;
+
+      ion-col {
+
+        ion-button {
+          text-transform: capitalize;
+          font-size: 13px;
+          --border-radius: 10px;
+        }
+
+        ion-buttons {
+          float: right;
+
+          ion-icon {
+            font-size: 24px;
+            margin: 0 8px;
+
+            &:first-child {
+              color: green;
+            }
+
+            &:last-child {
+              color: #4646f0;
+            }
+          }
+        }
+
+        &:first-child {
+          ion-button {
+            float: left;
+          }
+        }
+
+        &:nth-child(2) {
+          ion-button {
+            margin: auto;
+          }
+        }
+
+        &:last-child {
+          ion-button {
+            float: right;
+          }
+        }
+      }
+    }
+
+    ion-row.btns_rute {
+      margin-top: 8px;
+
+      ion-col {
+
+        ion-button {
+          text-transform: capitalize;
+          font-size: 13px;
+          --border-radius: 10px;
+        }
+
+        &:first-child {
+          ion-button {
+            float: left;
+          }
+        }
+
+
+        &:last-child {
+          ion-button {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}

@@ -52,7 +52,10 @@
         
         <div *ngFor="let add of item.addon">
           <ion-item style="font-size: 11px;color:rgb(10, 17, 119);" *ngIf="add.item_id == item.id">
-            <ion-label>{{add.addon}}</ion-label>
+            <ion-label>
+              <span *ngIf="add.qty > 0" style="font-weight: bold; margin-right: 5px;">x{{add.qty}}</span>
+              {{add.addon}}
+            </ion-label>
           </ion-item>
         </div>
       </div>
@@ -136,7 +139,7 @@
 <ion-footer no-border *ngIf="text">
 
   <ion-row *ngIf="status == 0">
-    <ion-col size="6"><ion-button size="block" mode="ios" (click)="startRide(data.id,2)">{{ text.s_cancel_button }}</ion-button></ion-col>
+    <ion-col size="6"><ion-button size="block" mode="ios" (click)="startRide(data.id,2)" color="danger">{{ text.s_cancel_button }}</ion-button></ion-col>
     <ion-col size="6"><ion-button size="block" mode="ios" (click)="startRide(data.id,1)" color="success">{{ text.s_confirm_button }}</ion-button></ion-col>
   </ion-row>
 

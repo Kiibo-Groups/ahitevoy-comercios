@@ -1,0 +1,109 @@
+#map_canvas {
+    width: 90%;
+    height: 60%;
+    border: 1px solid #501BB3;
+}
+
+.icon_close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 25px;
+    padding: 5px;
+    font-size: 20px;
+    background: #fff;
+    border-radius: 2003px;
+    box-shadow: 0px 1px 15px 0px #554e4e;
+    z-index: 2003;
+}
+
+#address {
+    padding: 0px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+
+.map-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    #map_center {
+        position: absolute;
+        z-index: 99;
+        height: 40px;
+        width: 40px;
+        top: 50%;
+        left: 50%;
+        margin-left: -21px;
+        margin-top: -41px;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.form-address {
+    transition: all .5s;
+    background: #fff;
+    position: absolute;
+    width: 90%;
+    left: 0;
+    right: 0;
+    bottom: 75px;
+    margin: auto;
+
+    ion-item {
+        border-radius: 15px;
+        box-shadow: 0px 1px 15px 0px #554e4e;
+
+        .item_inner {
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 35px;
+                height: 35px;
+                border-radius: 2003px;
+            }
+
+            .input_box {
+                margin-left: 15px;
+            }
+        }
+    }
+     
+}
+
+ion-footer {
+
+    .button.btn {
+        &.btnA {
+            display: none;
+        }
+    }
+
+    &.active {
+        .form {
+            display: block;
+        }
+
+        .footer_content {
+            height: 314px;
+        }
+
+        .button.btn {
+            &.btnA {
+                display: block;
+            }
+
+            &.btnB {
+                display: none;
+            }
+        }
+    }
+}

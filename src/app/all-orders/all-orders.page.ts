@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -25,7 +25,8 @@ export class AllOrdersPage implements OnInit {
     public server: ServerService,
     private nav: NavController,
     public loadingController: LoadingController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private cdr: ChangeDetectorRef
   ) {
     const appText = localStorage.getItem('app_text');
     this.text = appText ? JSON.parse(appText) : null;
@@ -49,9 +50,10 @@ export class AllOrdersPage implements OnInit {
     await loading.present();
 
     this.server.homepage(localStorage.getItem('user_id') || '', 5).subscribe((response: any) => {
-      console.log(response);
+      console.log("Listado de pedidos... ",response.data);
       this.data = response.data;
       loading.dismiss();
+      this.cdr.detectChanges();
     });
   }
 

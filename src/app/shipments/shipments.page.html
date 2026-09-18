@@ -1,0 +1,312 @@
+<ion-header *ngIf="!chargeInProcess">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-title>
+        <ion-icon name="arrow-back" (click)="closeComm()" *ngIf="step_comm == 0"></ion-icon>
+        <ion-icon name="arrow-back" (click)="next_step('back')" *ngIf="step_comm != 0"></ion-icon>
+      </ion-title>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="step_comm == 1">
+      <ion-searchbar #searchad type="text" mode="ios" autocomplete="street-address" animated="true"
+        (ionInput)="search($event)" (ionClear)="clearSearch()" [(ngModel)]="autocomplete.input">
+      </ion-searchbar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrap-content" *ngIf="!chargeInProcess">
+    <!-- Todo Listo -->
+    <div *ngIf="step_comm == 0">
+      <ion-card class="title">
+        <ion-card-header>
+          <ion-card-title *ngIf="ready == false">
+            {{title_text}}
+          </ion-card-title>
+          <ion-card-title *ngIf="ready == true">
+            {{resumen_text}}
+          </ion-card-title>
+
+          <ion-card-subtitle>
+            {{resumen_subtext}}
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card class="from_to">
+        <img *ngIf="ready == true"
+          src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x250&maptype=roadmap&markers=color:0xFF0000|size:mid|label:D|{{lat_orig}},{{lng_orig}}&markers=color:0xFF0000|size:mid|label:O|{{lat_dest}},{{lng_dest}}&path=color:0x000000|weight:5|{{lat_orig}},{{lng_orig}}|{{lat_dest}},{{lng_dest}}&key={{admin.ApiKey_google}}"
+          style="margin: 0 !important;padding:0 !important;">
+
+        <!-- Solicitud normal -->
+        <ion-item lines="none">
+          <ion-icon slot="start" *ngIf="!address_origin" src="assets/archive-outline.svg"></ion-icon>
+          <ion-icon slot="start" *ngIf="address_origin" color="success" src="assets/archive-outline.svg"></ion-icon>
+          <ion-label>
+            Punto de recolección
+            <br />
+            <span *ngIf="address_origin" style="color:green;">{{address_origin | slice:0:26}}...</span>
+          </ion-label>
+          <ion-icon src="assets/chevron-forward-outline.svg"></ion-icon>
+        </ion-item>
+        <!-- Solicitud normal -->
+
+        <ion-item lines="none" (click)="next_step_btn('add_destin')">
+          <ion-icon slot="start" *ngIf="!address_destin" src="assets/location-outline.svg"></ion-icon>
+          <ion-icon slot="start" *ngIf="address_destin" color="success" src="assets/location-outline.svg"></ion-icon>
+          <ion-label>
+            Punto de entrega
+            <br />
+            <span *ngIf="address_destin" style="color:green;">{{address_destin | slice:0:26}}...</span>
+          </ion-label>
+          <ion-icon src="assets/chevron-forward-outline.svg"></ion-icon>
+        </ion-item>
+      </ion-card>
+
+      <!-- Costos de envio -->
+      <ion-card class="costes animate__animated animate__fadeInRight" *ngIf="ready == true">
+        <ion-card-header>
+          <ion-card-subtitle>
+            <b>Desgloce de Información</b>
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="cost_ship">
+          <ion-row class="fontSize">
+
+            <ion-col size="8" class="border_bottom_only">
+              Distancia a recorrer:
+            </ion-col>
+            <ion-col size="4" class="border_bottom_only ion-text-right">
+              <b>{{cost_ship.distance}} KM</b>
+            </ion-col>
+
+            <ion-col size="8" class="border_bottom_only">
+              Tiempos de envio:
+            </ion-col>
+            <ion-col size="4" class="border_bottom_only ion-text-right">
+              <b>{{cost_ship.duration}}</b>
+            </ion-col>
+
+            <ion-col size="12" class="border_bottom_only ion-text-right">
+              <hr />
+            </ion-col>
+
+            <ion-col size="10" class="border_bottom_only">
+              <b>Total a pagar para el cliente:</b>
+            </ion-col>
+            <ion-col size="2" class="border_bottom_only ion-text-right">
+              <b>{{ total_amount | currency:'':'symbol':'1.0'}}</b>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+      <!-- Costos de envio-->
+    </div>
+    <!-- Todo Listo -->
+
+    <!-- Guardar direccion de recoger -->
+    <div *ngIf="step_comm == 1">
+      <!-- Search AutoComplete -->
+      <ion-list *ngIf="autocompleteItems && hasSearch">
+        <!-- Select Map -->
+        <ion-item tappable (click)="selectAddressMap()">
+          <ion-icon name="map-outline" style="font-size: 24px;"></ion-icon>
+          <ion-label style="padding: 0 8px;">
+            <h3>Seleccionar en el mapa</h3>
+          </ion-label>
+        </ion-item>
+        <!-- Select Map -->
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="SelectSearchResult(item)">
+          <ion-icon name="location-outline" style="font-size: 28px;"></ion-icon>
+          <ion-label style="padding: 0 8px;">
+            <h3>{{item.structured_formatting.main_text}}</h3>
+            <p style="font-size: 12px;" *ngIf="item.structured_formatting.secondary_text">
+              {{item.structured_formatting.secondary_text | slice:0:45}}
+              <i *ngIf="item.structured_formatting.secondary_text.length > 45">...</i>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <!-- Search AutoComplete -->
+
+      <!-- LocationNow -->
+      <ion-item *ngIf="!LocationNow" style="margin-top: 15px;">
+        <ion-avatar slot="start">
+          <ion-icon name="navigate" style="font-size: 22px;"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h4>Tu Ubicación</h4>
+          <p>
+            <ion-skeleton-text animated style="width: 100%;height: 15px;"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="LocationNow && !hasSearch" (click)="saveAddress(MyLocation[0])" style="margin-top: 15px;">
+        <ion-avatar slot="start">
+          <ion-icon name="navigate" style="font-size: 22px;"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h4>Tu Ubicación</h4>
+
+          <p style="font-size: 12px;">
+            {{LocationNow | slice:0:45}} <i *ngIf="LocationNow.length > 45">...</i>
+          </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="LocationNow && !hasSearch" style="margin-top: 15px;" (click)="selectAddressMap()">
+        <ion-avatar slot="start">
+          <ion-icon name="map-outline" style="font-size: 22px;"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h4>Abrir Mapa</h4>
+          <p style="font-size: 12px;">
+            Selecciona tu ubicación desde el mapa.
+          </p>
+        </ion-label>
+      </ion-item>
+      <!-- LocationNow -->
+
+      <!-- Save Address -->
+      <ion-list *ngIf="!hasSearch">
+        <ion-list-header>
+          <span>Recientes</span>
+        </ion-list-header>
+
+        <ion-item-sliding *ngFor="let add of address">
+          <ion-item (click)="saveAddress(add)">
+            <ion-avatar slot="start">
+              <ion-icon name="time" style="font-size: 22px;"></ion-icon>
+            </ion-avatar>
+            <ion-label>
+              <h4 *ngIf="add.type">{{add.type}}</h4>
+              <h4 *ngIf="!add.type">Sin Especificar</h4>
+
+              <p style="font-size: 12px;">
+                {{add.address | slice:0:45}} <i *ngIf="add.address.length > 45">...</i>
+              </p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <ion-item-option color="danger">
+              <ion-icon name="trash"></ion-icon>
+              Eliminar
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <!-- Save Address -->
+    </div>
+    <!-- Guardar direccion de recoger -->
+
+    <!-- Que vamos a recoger -->
+    <div *ngIf="step_comm == 2">
+      <ion-card class="title">
+        <ion-card-header>
+          <ion-card-title>
+            ¿Qué debemos hacer en este punto?
+          </ion-card-title>
+          <ion-card-subtitle>
+            {{address_origin}}
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card class="from_to">
+        <ion-textarea rows="6" cols="20" [(ngModel)]="first_instr" name="first_instr"
+          placeholder="Recoger paquete en la puerta..."></ion-textarea>
+      </ion-card>
+    </div>
+    <!-- Que vamos a recoger -->
+
+    <!-- Direccion de entrega -->
+    <div *ngIf="step_comm == 3">
+      <ion-card class="title">
+        <ion-card-header>
+          <ion-card-title>
+            Ingresa los datos Requeridos para solicitar tu servicio
+          </ion-card-title>
+          <ion-card-subtitle>
+            {{address_destin}}
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+      <!--<textarea rows="6" cols="20" [(ngModel)]="first_instr" name="first_instr"
+        placeholder="Instrucciones de recoleccion..."></textarea>
+        -->
+
+      <ion-card>
+        <ion-item lines="none">
+            <textarea rows="6" cols="20" [(ngModel)]="second_instr" name="second_instr"
+            placeholder="Referencias de ubicación"></textarea>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+          <ion-card-header>
+            <p>Ingresa los datos del cliente</p>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-input placeholder="Nombre del cliente" [(ngModel)]="name_client" name="name_client"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input placeholder="Telefono" [(ngModel)]="phone_client" name="phone_client"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input placeholder="Costo del pedido" [(ngModel)]="cost_order" name="cost_order"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input placeholder="El cliente paga con:" [(ngModel)]="pay_client" name="pay_client"></ion-input>
+            </ion-item>
+          </ion-card-content>
+      </ion-card>
+
+    </div>
+    <!-- Direccion de entrega -->
+  </div>
+
+  <!-- Pay Success -->
+  <div class="wrap-content" *ngIf="chargeInProcess">
+    <ion-card class="ion-text-center" style="box-shadow: none;margin-top:25%;">
+      <ion-card-header>
+        <ion-card-subtitle>
+          <p>Estamos registrando tu nueva solicitud...</p>
+          <img src="assets/comm2.png" style="max-width: 40%;margin:auto;">
+
+          <ion-spinner name="crescent" style="margin-top: 85px;"></ion-spinner>
+        </ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </div>
+  <!-- Pay Success -->
+</ion-content>
+
+<ion-footer class="ion-no-border" *ngIf="!chargeInProcess">
+  <ion-card class="foot app-footer-actions" *ngIf="step_comm == 0">
+    <p class="ion-text-center" *ngIf="ready == false">
+      Términos y condiciones especificos y aplicables a AhiTeVoy Delivery
+    </p>
+    <ion-button expand="block" (click)="makeOrder()" [disabled]="ready == false">
+      Confirmar pedido
+    </ion-button>
+  </ion-card>
+
+  <ion-card class="foot" *ngIf="step_comm == 2">
+    <ion-button expand="block" (click)="next_step('add_destin')">
+      Siguiente
+    </ion-button>
+  </ion-card>
+
+  <ion-card class="foot" *ngIf="step_comm == 3">
+    <ion-button expand="block" (click)="next_step('ready')">
+      Confirmar
+    </ion-button>
+  </ion-card>
+</ion-footer>
