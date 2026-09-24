@@ -69,8 +69,9 @@
 }
 
 .ion-page {
-  padding-top: var(--ion-safe-area-top);
-  padding-bottom: var(--ion-safe-area-bottom);
+  /* Se elimina el padding-top y bottom manual para evitar que la barra 
+     nativa choque y cree un hueco negro. Ionic manejará el safe-area 
+     automáticamente en el ion-header y ion-footer */
 }
  
 .loading-wrapper {

@@ -151,7 +151,7 @@ export class AppComponent {
       }
 
       // SplashScreen.hide();
-      // this.subPush();
+      this.subPush();
       
       // if ((window as any).cordova) {
       //   SplashScreen.hide();
@@ -177,13 +177,14 @@ export class AppComponent {
     });
 
     if (localStorage.getItem('user_id') && localStorage.getItem('user_id') != 'null') {
-      OneSignal.login(JSON.stringify(localStorage.getItem('user_id')));
-      OneSignal.User.addTag("store_id", JSON.stringify(localStorage.getItem('user_id')));
+      const uId = String(localStorage.getItem('user_id'));
+      OneSignal.login(uId);
+      OneSignal.User.addTag("store_id", uId);
     }
 
     if (id > 0) {
-      OneSignal.login(JSON.stringify(id));
-      OneSignal.User.addTag("store_id", JSON.stringify(id));
+      OneSignal.login(String(id));
+      OneSignal.User.addTag("store_id", String(id));
     }
   }
 
