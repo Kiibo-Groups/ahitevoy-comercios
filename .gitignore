@@ -22,6 +22,7 @@ log.txt
 /www
 /platforms
 /plugins
+/android
 
 # Compiled output
 /dist
@@ -70,3 +71,4 @@ testem.log
 Thumbs.db
 
 resources/android/**/*
+
